@@ -2,22 +2,24 @@
 spring:
   application:
     name: business-core
-datasource:
-  url: jdbc:postgresql://localhost:5432/medical_biosecurity
-  username: admin
-  password: password123
-  driver-class-name: org.postgresql.Driver
+
+  # Fíjate que datasource y jpa ahora tienen 2 espacios de sangría
+  datasource:
+    url: jdbc:postgresql://localhost:5432/medical_biosecurity
+    username: admin
+    password: password123
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update # Crea las tablas automáticamente basado en las entidades
-    show-sql: true # Para que veas las consultas en la consola (útil en desarrollo)
+    show-sql: true # Para que veas las consultas en la consola
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# Configuración de logs para ver qué pasa con Hibernate
+# Configuración de logs (esta sí va al margen izquierdo porque es otra raíz)
 logging:
   level:
     org.hibernate.SQL: DEBUG
