@@ -20,4 +20,9 @@ public class InventoryTransaction {
     // Getters
     public TransactionType getType() { return type; }
     public int getQuantity() { return quantity; }
+
+    public LocalDateTime getDate() { return date; }
+    public String getReason() { return reason; }
+    public TransactionId getId() { return id; }
+
 }

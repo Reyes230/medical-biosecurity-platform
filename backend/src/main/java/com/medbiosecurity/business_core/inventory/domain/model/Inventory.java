@@ -34,4 +34,9 @@ public class Inventory {
     public List<InventoryTransaction> getTransactions() {
         return Collections.unmodifiableList(transactions);
     }
+
+    public VariantId getVariantId() {
+        return variantId;
+    }
+
 }
