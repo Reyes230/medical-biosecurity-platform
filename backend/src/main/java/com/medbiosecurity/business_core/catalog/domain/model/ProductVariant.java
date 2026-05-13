@@ -17,6 +17,27 @@ public class ProductVariant {
         this.basePrice = basePrice;
         this.isActive = true;
     }
+    // --- Estos son los métodos que el Mapper necesita para funcionar ---
+
+    public VariantId getId() {
+        return id;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public Money getBasePrice() {
+        return basePrice;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
 
     public String getAttribute(String key){
         return attributes.get(key);

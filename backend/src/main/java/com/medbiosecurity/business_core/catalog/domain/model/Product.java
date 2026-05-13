@@ -33,7 +33,16 @@ public class Product {
     }
 
     public ProductId getId() { return id; }
+
     public String getName() { return name; }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
     public List<ProductVariant> getVariants() {
         return Collections.unmodifiableList(variants);
     }
