@@ -33,4 +33,26 @@ public class ProductMapper {
     }
 
     // Aquí también iría el método toDomain(...) para el flujo de lectura
+    public static Product toDomain(ProductEntity entity) {
+        Product product = new Product(
+                new ProductId(entity.getId()),
+                entity.getName(),
+                entity.getDescription(),
+                new Category(entity.getCategory())
+        );
+
+        if (entity.getVariants() != null) {
+            entity.getVariants().forEach(v -> {
+                ProductVariant variant = new ProductVariant(
+                        new VariantId(v.getId()),
+                        v.getSku(),
+                        v.getAttributes(),
+                        Money.of(v.getBasePrice().doubleValue(), v.getCurrency())
+                );
+                product.addVariant(variant);
+            });
+        }
+
+        return product;
+    }
 }

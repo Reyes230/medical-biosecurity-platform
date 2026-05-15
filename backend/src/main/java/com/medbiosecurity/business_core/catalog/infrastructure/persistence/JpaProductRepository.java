@@ -8,4 +8,7 @@ import java.util.UUID;
 @Repository
 public interface JpaProductRepository extends JpaRepository<ProductEntity, UUID>{
     //consultas sql
+
 }
+
+
