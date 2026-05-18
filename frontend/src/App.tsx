@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PublicLayout from './layouts/PublicLayout';
 import HomeView from './features/marketing/components/HomeView';
+import ClothingView from './features/clothing/components/ClothingView';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,13 +22,8 @@ export default function App() {
       <PublicLayout currentTab={activeTab} onTabChange={setActiveTab}>
         {/* Renderizado Condicional de Módulos */}
         {activeTab === 'home' && <HomeView />}
-
-        {activeTab === 'clothing' && (
-          <div className="rounded-lg border border-dashed border-slate-300 p-12 text-center bg-white">
-            <h3 className="text-lg font-medium text-slate-900 font-sans">Línea de Ropa Médica Premium</h3>
-            <p className="text-sm text-slate-500 mt-1">Próximamente: Catálogo con filtros avanzados de color, talla y tipo de textil quirúrgico.</p>
-          </div>
-        )}
+        
+        {activeTab === 'clothing' && <ClothingView />}
 
         {activeTab === 'supplies' && (
           <div className="rounded-lg border border-dashed border-slate-300 p-12 text-center bg-white">
