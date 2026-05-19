@@ -1,5 +1,6 @@
 // src/features/marketing/components/HomeView.tsx
-import { Building2, Mail, MapPin, Phone, ShieldCheck, Truck } from 'lucide-react';
+import { Building2, Mail, MapPin, MessageSquareText, Phone, ShieldCheck, Truck } from 'lucide-react';
+import { COMPANY_INFO } from '../../../config/company.config';
 
 export default function HomeView() {
   const coreValues = [
@@ -15,6 +16,9 @@ export default function HomeView() {
     },
   ];
 
+  // Enlace dinámico optimizado con el mensaje corporativo real para el dueño
+  const generalWhatsappUrl = `https://wa.me/${COMPANY_INFO.whatsappNumber}?text=Hola%20${encodeURIComponent(COMPANY_INFO.name)}%2C%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20y%20una%20cotizaci%C3%B3n%20de%20cat%C3%A1logo.`;
+
   return (
     <div className="space-y-16 py-4">
       {/* Hero Section */}
@@ -26,11 +30,11 @@ export default function HomeView() {
           Equipamiento y Textiles Quirúrgicos de Alta Gama
         </h1>
         <p className="text-lg text-slate-500 leading-relaxed">
-          En <span className="font-semibold text-primary">Medical & Biosecurity</span> nos especializamos en la provisión de insumos médicos certificados y el diseño de indumentaria profesional que combina seguridad, ergonomía y un estilo impecable.
+          En <span className="font-semibold text-primary">{COMPANY_INFO.name}</span> nos especializamos en la provisión de insumos médicos certificados y el diseño de indumentaria profesional que combina seguridad, ergonomía y un estilo impecable.
         </p>
       </section>
 
-      {/* Quiénes Somos / Valores */}
+      {/* Valores de la Empresa */}
       <section className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:max-w-5xl lg:mx-auto">
         {coreValues.map((value, index) => {
           const Icon = value.icon;
@@ -48,55 +52,61 @@ export default function HomeView() {
         })}
       </section>
 
-      {/* Contacto e Información Local */}
+      {/* SECCIÓN INTERACTIVA: Contacto, WhatsApp y Minimapa */}
       <section className="grid grid-cols-1 gap-8 lg:grid-cols-3 bg-white border border-slate-200 rounded-2xl p-8 shadow-xs max-w-5xl mx-auto">
-        {/* Info de la Empresa */}
-        <div className="space-y-6 lg:col-span-1">
-          <div className="space-y-2">
-            <h2 className="text-xl font-bold tracking-tight text-medical-dark font-sans">Contáctanos</h2>
-            <p className="text-xs text-slate-400">Solicita cotizaciones al por mayor o agendas de exhibición.</p>
+        
+        {/* Canales Directos Reales */}
+        <div className="space-y-6 lg:col-span-1 flex flex-col justify-between">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h2 className="text-xl font-bold tracking-tight text-medical-dark font-sans">Canales de Atención</h2>
+              <p className="text-xs text-slate-400">Coordinación directa de pedidos e inventario con gerencia.</p>
+            </div>
+
+            <div className="space-y-4 text-sm text-slate-600">
+              <div className="flex items-start gap-3">
+                <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <span>{COMPANY_INFO.address}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone className="h-5 w-5 text-primary shrink-0" />
+                <span>{COMPANY_INFO.phone}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className="h-5 w-5 text-primary shrink-0" />
+                <span className="truncate">{COMPANY_INFO.email}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Building2 className="h-5 w-5 text-primary shrink-0" />
+                <span>Matriz Local de Suministros</span>
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-4 text-sm text-slate-600">
-            <div className="flex items-start gap-3">
-              <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-              <span>Quito, Pichincha, Ecuador</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Phone className="h-5 w-5 text-primary shrink-0" />
-              <span>+593 98 030 7694</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Mail className="h-5 w-5 text-primary shrink-0" />
-              <span>contacto@medbiosecurity.com</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Building2 className="h-5 w-5 text-primary shrink-0" />
-              <span>Matriz Local de Suministros</span>
-            </div>
-          </div>
+          {/* Botón a WhatsApp Corporativo */}
+          <a
+            href={generalWhatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700 transition-colors cursor-pointer w-full text-center mt-6 lg:mt-0 font-sans"
+          >
+            <MessageSquareText className="h-5 w-5" />
+            Contactar al Jefe vía WhatsApp
+          </a>
         </div>
 
-        {/* Formulario de Contacto Rápido */}
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-4 lg:col-span-2 border-t lg:border-t-0 lg:border-l border-slate-100 pt-6 lg:pt-0 lg:pl-8">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-500">Nombre Completo</label>
-              <input type="text" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary focus:outline-hidden bg-surface" placeholder="Ej. Dr. Alejandro Reyes" />
-            </div>
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-slate-500">Institución / Clínica</label>
-              <input type="text" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary focus:outline-hidden bg-surface" placeholder="Ej. Hospital Metropolitano" />
-            </div>
-          </div>
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-500">Mensaje o Requerimiento</label>
-            <textarea rows={3} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-primary focus:outline-hidden bg-surface resize-none" placeholder="Detalla los insumos o tallas de ropa médica que requieres cotizar..."></textarea>
-          </div>
-          <button type="submit" className="inline-flex justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-700 transition-colors cursor-pointer w-full sm:w-auto">
-            Enviar Mensaje
-          </button>
-        </form>
+        {/* El Minimapa Responsivo con URL de Configuración */}
+        <div className="lg:col-span-2 h-72 lg:h-full min-h-[280px] rounded-xl overflow-hidden border border-slate-100 shadow-inner relative group bg-slate-50">
+          <iframe
+            title={`Ubicación de ${COMPANY_INFO.name}`}
+            src={COMPANY_INFO.googleMapsEmbedUrl}
+            className="absolute top-0 left-0 w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-500"
+            allowFullScreen={false}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+
       </section>
     </div>
   );
