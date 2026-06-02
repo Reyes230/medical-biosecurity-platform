@@ -1,3 +1,4 @@
+//C:\Users\matis\OneDrive\Documents\medical-biosecurity-platform\backend\src\main\java\com\medbiosecurity\business_core\catalog\domain\model/Product.java
 package com.medbiosecurity.business_core.catalog.domain.model;
 
 import java.util.ArrayList;
