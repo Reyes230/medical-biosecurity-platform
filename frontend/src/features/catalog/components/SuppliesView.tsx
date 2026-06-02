@@ -1,7 +1,8 @@
 // src/features/catalog/components/SuppliesView.tsx
 import { useState } from 'react';
 import { useGetProducts } from '../hooks/useGetProducts';
-import { AlertCircle, ChevronDown, ChevronUp, Loader2, Package, Tag } from 'lucide-react';
+import { COMPANY_INFO } from '../../../config/company.config';
+import { AlertCircle, ChevronDown, ChevronUp, Loader2, Package, MessageSquare, Tag } from 'lucide-react';
 
 export default function SuppliesView() {
   const { data: products, isLoading, isError, error } = useGetProducts();
@@ -11,7 +12,7 @@ export default function SuppliesView() {
     setExpandedProductId(expandedProductId === id ? null : id);
   };
 
-  // 1. ESTADO DE CARGA (Loading Skeleton Eficiente)
+  // 1. ESTADO DE CARGA
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-12 space-y-4">
@@ -36,7 +37,7 @@ export default function SuppliesView() {
     );
   }
 
-  // 3. ESTADO SINFÍN / SIN DATOS
+  // 3. ESTADO SIN DATOS
   if (!products || products.length === 0) {
     return (
       <div className="text-center py-12 border border-dashed border-slate-200 bg-white rounded-xl max-w-2xl mx-auto space-y-3">
@@ -59,7 +60,7 @@ export default function SuppliesView() {
         </p>
       </div>
 
-      {/* Contenedor de Tabla Adaptativo a Pantallas Móviles */}
+      {/* Contenedor de Tabla Adaptativo */}
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-xs">
         <table className="w-full text-left border-collapse">
           <thead>
@@ -67,15 +68,21 @@ export default function SuppliesView() {
               <th className="py-3 px-4 w-10"></th>
               <th className="py-3 px-4 font-sans">Producto</th>
               <th className="py-3 px-4 font-sans hidden sm:table-cell">Categoría</th>
-              <th className="py-3 px-4 font-sans text-right">Precio Base</th>
+              <th className="py-3 px-4 font-sans text-right">Precio Desde</th>
               <th className="py-3 px-4 font-sans text-center">Variantes</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-sm">
             {products.map((product) => {
               const isExpanded = expandedProductId === product.id;
+              
+              // ◄ LÓGICA: Obtenemos el precio de la primera variante como el precio base inicial
+              const firstVariantPrice = product.variants && product.variants.length > 0 
+                ? (product.variants[0].basePrice ?? 0) 
+                : 0;
+
               return (
-                <caption key={product.id} className="w-full text-left p-0 display: table-row-group">
+                <div key={product.id} className="contents">
                   {/* Fila Principal de Producto */}
                   <tr 
                     onClick={() => toggleProduct(product.id)}
@@ -101,7 +108,7 @@ export default function SuppliesView() {
                       </span>
                     </td>
                     <td className="py-4 px-4 text-right font-bold text-medical-dark">
-                      ${product.basePrice.toFixed(2)}
+                      ${firstVariantPrice.toFixed(2)}
                     </td>
                     <td className="py-4 px-4 text-center font-medium text-slate-500">
                       {product.variants?.length || 0}
@@ -118,43 +125,64 @@ export default function SuppliesView() {
                           </h5>
                           
                           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            {product.variants?.map((variant) => (
-                              <div key={variant.id} className="rounded-lg border border-slate-100 bg-surface p-3 text-xs space-y-2">
-                                <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
-                                  <span className="font-mono font-bold text-slate-700">{variant.sku}</span>
-                                  <span className="font-bold text-primary">${variant.price.toFixed(2)}</span>
-                                </div>
-                                
-                                {/* Renderizado 100% dinámico del mapa de atributos JSONB */}
-                                <div className="space-y-1">
-                                  <p className="text-[10px] font-bold text-slate-400 uppercase">Atributos Técnicos:</p>
-                                  {Object.entries(variant.attributes).length > 0 ? (
-                                    <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-600">
-                                      {Object.entries(variant.attributes).map(([key, value]) => (
-                                        <div key={key} className="truncate">
-                                          <span className="font-medium text-slate-400 capitalize">{key}:</span> {value}
-                                        </div>
-                                      ))}
-                                    </div>
-                                  ) : (
-                                    <p className="text-slate-400 italic text-[11px]">Sin atributos específicos.</p>
-                                  )}
-                                </div>
+                            {product.variants?.map((variant) => {
+                              const safeVariantPrice = variant.basePrice ?? 0;
+                              
+                              // Mensaje para WhatsApp con los datos corregidos mapeando tu JSON real
+                              const whatsappText = `Hola ${COMPANY_INFO.name}, estoy interesado en cotizar el siguiente insumo clínico:\n\n*Producto:* ${product.name}\n*SKU:* ${variant.sku}\n*Precio:* $${safeVariantPrice.toFixed(2)} ${variant.currency || 'USD'}`;
+                              const variantWhatsappUrl = `https://wa.me/${COMPANY_INFO.whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
 
-                                <div className="flex items-center justify-between pt-1 border-t border-slate-100/60 text-slate-500">
-                                  <span>Stock en Bodega:</span>
-                                  <span className={`font-semibold ${variant.stock <= 10 ? 'text-amber-600 font-bold' : 'text-slate-700'}`}>
-                                    {variant.stock} u.
-                                  </span>
+                              return (
+                                <div key={variant.id} className="rounded-lg border border-slate-100 bg-surface p-3 text-xs space-y-2 flex flex-col justify-between">
+                                  <div className="space-y-2">
+                                    <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
+                                      <span className="font-mono font-bold text-slate-700">{variant.sku || 'SIN-SKU'}</span>
+                                      <span className="font-bold text-primary">${safeVariantPrice.toFixed(2)} {variant.currency || 'USD'}</span>
+                                    </div>
+                                    
+                                    {/* Renderizado 100% dinámico del mapa de atributos JSONB */}
+                                    <div className="space-y-1">
+                                      <p className="text-[10px] font-bold text-slate-400 uppercase">Atributos Técnicos:</p>
+                                      {variant.attributes && Object.entries(variant.attributes).length > 0 ? (
+                                        <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-600">
+                                          {Object.entries(variant.attributes).map(([key, value]) => (
+                                            <div key={key} className="truncate">
+                                              <span className="font-medium text-slate-400 capitalize">{key}:</span> {value}
+                                            </div>
+                                          ))}
+                                        </div>
+                                      ) : (
+                                        <p className="text-slate-400 italic text-[11px]">Sin atributos específicos.</p>
+                                      )}
+                                    </div>
+
+                                    <div className="flex items-center justify-between pt-1 border-t border-slate-100/60 text-slate-500">
+                                      <span>Disponibilidad:</span>
+                                      <span className="text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full text-[10px]">
+                                        Bajo Pedido
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  {/* CTA: Botón de Cotización por WhatsApp */}
+                                  <a
+                                    href={variantWhatsappUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-md bg-emerald-600 px-2.5 py-1.5 text-[11px] font-semibold text-white hover:bg-emerald-700 transition-colors cursor-pointer text-center font-sans"
+                                  >
+                                    <MessageSquare className="h-3.5 w-3.5" />
+                                    Cotizar por WhatsApp
+                                  </a>
                                 </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       </td>
                     </tr>
                   )}
-                </caption>
+                </div>
               );
             })}
           </tbody>
