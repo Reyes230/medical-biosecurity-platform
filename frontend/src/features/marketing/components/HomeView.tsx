@@ -96,7 +96,7 @@ export default function HomeView() {
         </div>
 
         {/* El Minimapa Responsivo con URL de Configuración */}
-        <div className="lg:col-span-2 h-72 lg:h-full min-h-[280px] rounded-xl overflow-hidden border border-slate-100 shadow-inner relative group bg-slate-50">
+        <div className="lg:col-span-2 h-72 lg:h-full min-h-70 rounded-xl overflow-hidden border border-slate-100 shadow-inner relative group bg-slate-50">
           <iframe
             title={`Ubicación de ${COMPANY_INFO.name}`}
             src={COMPANY_INFO.googleMapsEmbedUrl}
