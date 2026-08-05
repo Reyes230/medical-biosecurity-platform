@@ -90,7 +90,777 @@
         { "basePrice": 29.50, "sku": "SCRUB-L-PLA", "currency": "USD", "attributes": { "Talla": "L", "Tela": "Plana" } },
         { "basePrice": 38.00, "sku": "SCRUB-L-STR", "currency": "USD", "attributes": { "Talla": "L", "Tela": "Strech" } },
         { "basePrice": 34.00, "sku": "SCRUB-XL-PLA", "currency": "USD", "attributes": { "Talla": "XL", "Tela": "Plana" } },
-        { "basePrice": 41.00, "sku": "SCRUB-XL-STR", "currency": "USD", "attributes": { "Talla": "XL", "Tela": "Strech" } }
+        { "basePrice": 41.00, "sku": "SCRUB-XL-STR", "currency": "USD", "attributes": { "Talla": "XL", "Tela": "Strech" } },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AMARILLOARENA-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_amarilloarena",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AMARILLODORADO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_amarillodorado",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AMARILLODORADOINTENSO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_amarillodoradointenso",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AMARILLOVERDELIMA-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_amarilloverdelima",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULACEROOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulacerooscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULACEROSUAVE-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulacerosuave",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULCIAN-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulcian",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULCIELOBRILLANTE-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulcielobrillante",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULCIELOSUAVE-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulcielosuave",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULCOBALTO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulcobalto",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULCORNFLOWER-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulcornflower",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULGRISMUYOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulgrismuyoscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULGRISOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulgrisoscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULINDIGOMEDIO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulindigomedio",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULMARINA-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulmarina",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULMARINOGRISACEO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulmarinogrisaceo",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULMARINOMUYOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulmarinomuyoscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULNOCHEOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulnocheoscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULPETROLEO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulpetroleo",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULREY-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulrey",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULROYALOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulroyaloscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULTURQUESACLARO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulturquesaclaro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULVERDEPETROLEOOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulverdepetroleooscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULVIOLETAMEDIO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulvioletamedio",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_AZULZAFIROOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_azulzafirooscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_BASE-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_base",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_BLANCO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_blanco",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_BURDEOSOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_burdeososcuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_FRAMBUESACLARO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_frambuesaclaro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_GRISAZULADOMEDIO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_grisazuladomedio",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_GRISAZULOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_grisazuloscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_GRISAZULPIZARRA-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_grisazulpizarra",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_GRISBEIGE-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_grisbeige",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_GRISMORADOOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_grismoradooscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_GRISOSCUROCALIDO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_grisoscurocalido",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_GRISPLATEADOCLARO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_grisplateadoclaro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_GRISVERDOSO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_grisverdoso",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_GRISVERDOSOCALIDO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_grisverdosocalido",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_LAVANDA-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_lavanda",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_MARRONARENA-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_marronarena",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_MARRONNEGROOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_marronnegrooscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_MORADOCIRUELAOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_moradociruelaoscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_MORADOINDIGOOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_moradoindigooscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_MORADOMAGENTA-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_moradomagenta",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_NARANJAINTENSO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_naranjaintenso",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_NEGROAZULADO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_negroazulado",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_NEGROCASIPURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_negrocasipuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_PURPURAMEDIO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_purpuramedio",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_ROJOBURDEOSOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_rojoburdeososcuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_ROJOCARMESI-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_rojocarmesi",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_ROJOOSCUROROJIZO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_rojooscurorojizo",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_ROJOROSAINTENSO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_rojorosaintenso",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_ROJOTERRACOTA-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_rojoterracota",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_ROJOTOMATE-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_rojotomate",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_ROSAFUERTE-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_rosafuerte",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_ROSAMORADO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_rosamorado",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_ROSAPALIDO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_rosapalido",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_SALMON-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_salmon",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDEAZULADO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdeazulado",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDEBOSQUE-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdebosque",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDECARBONCASINEGRO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdecarboncasinegro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDECAZADOROSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdecazadoroscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDEESMERALDAMEDIO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdeesmeraldamedio",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDEMANZANACLARO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdemanzanaclaro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDEMENTACLARO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdementaclaro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDEMUSGOGRISACEO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdemusgogrisaceo",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDEOLIVAMEDIO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdeolivamedio",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VERDEOSCUROPROFUNDO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_verdeoscuroprofundo",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VINOTINTOMUYOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_vinotintomuyoscuro",
+              "Genero": "Unisex"
+            }
+          },
+          {
+            "basePrice": 35,
+            "sku": "SCRUB-SCRUB_VIOLETAOSCURO-S",
+            "currency": "USD",
+            "attributes": {
+              "Talla": "S",
+              "Tela": "Antifluido Premium",
+              "Color": "Scrub_violetaoscuro",
+              "Genero": "Unisex"
+            }
+          }
       ]
     }
   ]
