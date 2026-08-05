@@ -1,12 +1,15 @@
 import { useState, useMemo } from 'react';
-import { Filter, SlidersHorizontal, Loader2, AlertCircle } from 'lucide-react';
+import { Filter, SlidersHorizontal, Loader2, AlertCircle, ArrowLeft, MessageSquare } from 'lucide-react';
 import { useGetProducts } from '../../catalog/hooks/useGetProducts';
+import { COMPANY_INFO } from '../../../config/company.config';
 
 export default function ClothingView() {
   const { data: allProducts, isLoading, isError, error } = useGetProducts();
   const [selectedColor, setSelectedColor] = useState<string>('Todos');
+  
+  // NUEVO ESTADO: Maneja la variante seleccionada para la vista de detalle
+  const [selectedVariant, setSelectedVariant] = useState<any | null>(null);
 
-  // 1. Aplanar Variantes: Extraemos solo "Ropa Médica" y convertimos cada variante en un ítem de la grilla
   const variantsList = useMemo(() => {
     if (!allProducts) return [];
     return allProducts
@@ -14,12 +17,12 @@ export default function ClothingView() {
       .flatMap(product => 
         product.variants.map(variant => ({
           productName: product.name,
+          productDescription: product.description, // Traemos la descripción del padre
           ...variant
         }))
       );
   }, [allProducts]);
 
-  // 2. Extraer filtros dinámicamente según lo que venga de PostgreSQL
   const colors = useMemo(() => {
     const colorSet = new Set<string>();
     variantsList.forEach(v => {
@@ -30,18 +33,15 @@ export default function ClothingView() {
 
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
 
-  // 3. Aplicar Filtro de UI
   const filteredVariants = selectedColor === 'Todos' 
     ? variantsList 
     : variantsList.filter(v => v.attributes.Color === selectedColor);
 
-  // Utilidad visual para transformar "Scrub_amarilloarena" -> "AMARILLOARENA" en la UI
   const formatColorLabel = (rawColor?: string) => {
     if (!rawColor) return 'Estándar';
     return rawColor.replace(/^Scrub_/i, '').toUpperCase();
   };
 
-  // Estados de carga (similares a SuppliesView)
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-12 space-y-4">
@@ -63,6 +63,112 @@ export default function ClothingView() {
     );
   }
 
+  // ==========================================
+  // VISTA DE DETALLE INDIVIDUAL
+  // ==========================================
+  if (selectedVariant) {
+    const whatsappText = `Hola ${COMPANY_INFO.name}, me gustaría cotizar el siguiente uniforme:\n\n*Producto:* ${selectedVariant.productName}\n*Color:* ${formatColorLabel(selectedVariant.attributes.Color)}\n*SKU:* ${selectedVariant.sku}\n*Precio Ref:* $${selectedVariant.basePrice?.toFixed(2)} ${selectedVariant.currency || 'USD'}`;
+    const variantWhatsappUrl = `https://wa.me/${COMPANY_INFO.whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
+
+    return (
+      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <button 
+          onClick={() => setSelectedVariant(null)}
+          className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-primary transition-colors cursor-pointer"
+        >
+          <ArrowLeft className="h-4 w-4" /> Volver a la colección
+        </button>
+
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row">
+          
+          {/* Columna Izquierda: Imagen Grande */}
+          <div className="md:w-1/2 bg-slate-50 p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-100">
+            {selectedVariant.attributes.Color ? (
+              <img 
+                src={`/images/scrubs/llanos/${selectedVariant.attributes.Color.toLowerCase()}.webp`} 
+                alt={`Uniforme ${selectedVariant.attributes.Color}`}
+                className="max-w-full h-auto max-h-[500px] object-contain drop-shadow-md"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement!.innerHTML = `<span class="text-sm font-bold text-slate-400">Imagen no disponible</span>`;
+                }}
+              />
+            ) : (
+              <div className="h-64 w-full flex items-center justify-center">
+                 <span className="text-sm font-bold text-slate-400">Imagen no disponible</span>
+              </div>
+            )}
+          </div>
+
+          {/* Columna Derecha: Información y CTA */}
+          <div className="md:w-1/2 p-8 flex flex-col justify-between">
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="inline-block px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase bg-sky-50 text-primary rounded-full border border-sky-100">
+                    {selectedVariant.attributes.Tela || 'Antifluido Premium'}
+                  </span>
+                  <span className="inline-block px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase bg-slate-100 text-slate-600 rounded-full border border-slate-200">
+                    SKU: {selectedVariant.sku}
+                  </span>
+                </div>
+                <h1 className="text-3xl font-extrabold text-medical-dark font-sans tracking-tight">
+                  {selectedVariant.productName}
+                </h1>
+                <p className="mt-3 text-slate-500 leading-relaxed text-sm">
+                  {selectedVariant.productDescription}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100">
+                <div className="space-y-1">
+                  <p className="text-xs font-bold uppercase text-slate-400 tracking-wide">Color</p>
+                  <p className="font-semibold text-medical-dark">{formatColorLabel(selectedVariant.attributes.Color)}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-bold uppercase text-slate-400 tracking-wide">Talla</p>
+                  <p className="font-semibold text-medical-dark">{selectedVariant.attributes.Talla || 'Por definir'}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-bold uppercase text-slate-400 tracking-wide">Género</p>
+                  <p className="font-semibold text-medical-dark">{selectedVariant.attributes.Genero || 'Unisex'}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-bold uppercase text-slate-400 tracking-wide">Disponibilidad</p>
+                  <p className="font-semibold text-emerald-600 flex items-center gap-1">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500"></span> Stock Activo
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-10 space-y-4 pt-6 border-t border-slate-100">
+              <div className="flex items-end gap-2">
+                <p className="text-4xl font-extrabold text-medical-dark tracking-tight">
+                  ${selectedVariant.basePrice?.toFixed(2)}
+                </p>
+                <p className="text-sm font-semibold text-slate-400 mb-1">{selectedVariant.currency || 'USD'}</p>
+              </div>
+
+              <a
+                href={variantWhatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-base font-bold text-white shadow-xs hover:bg-emerald-700 hover:shadow-md transition-all cursor-pointer font-sans"
+              >
+                <MessageSquare className="h-5 w-5" />
+                Cotizar este modelo por WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ==========================================
+  // VISTA DE GRILLA (CATÁLOGO PRINCIPAL)
+  // ==========================================
   return (
     <div className="space-y-6">
       <div className="border-b border-slate-100 pb-5">
@@ -115,19 +221,24 @@ export default function ClothingView() {
           </div>
         </aside>
 
-        {/* CONTENEDOR DE PRODUCTOS (VARIANTES APLANADAS) */}
+        {/* CONTENEDOR DE PRODUCTOS */}
         <section className="md:col-span-3">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredVariants.map((variant) => (
-              <div key={variant.id} className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs hover:shadow-sm transition-shadow">
-                
-                {/* RESOLUCIÓN DINÁMICA DE IMÁGENES WEBP */}
-                <div className="aspect-square bg-slate-100 flex items-center justify-center overflow-hidden">
+              <div 
+                key={variant.id} 
+                onClick={() => setSelectedVariant(variant)} // Acción que activa la vista de detalle
+                className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs hover:shadow-md transition-all cursor-pointer"
+              >
+                <div className="aspect-square bg-slate-100 flex items-center justify-center overflow-hidden relative">
+                  {/* Capa superpuesta para indicar que es clickeable */}
+                  <div className="absolute inset-0 bg-medical-dark/0 group-hover:bg-medical-dark/5 transition-colors z-10"></div>
+                  
                   {variant.attributes.Color ? (
                     <img 
                       src={`/images/scrubs/llanos/${variant.attributes.Color.toLowerCase()}.webp`} 
                       alt={`Uniforme ${variant.attributes.Color}`}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                         e.currentTarget.parentElement!.innerHTML = `<span class="text-xs font-bold text-slate-400">Sin Imagen</span>`;
@@ -164,7 +275,7 @@ export default function ClothingView() {
                       ${variant.basePrice?.toFixed(2)}
                     </span>
                     <span className="text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                      Stock Activo
+                      Ver detalle
                     </span>
                   </div>
                 </div>
