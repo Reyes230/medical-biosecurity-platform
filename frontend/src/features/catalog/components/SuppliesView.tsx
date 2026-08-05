@@ -5,8 +5,9 @@ import { COMPANY_INFO } from '../../../config/company.config';
 import { AlertCircle, ChevronDown, ChevronUp, Loader2, Package, MessageSquare, Tag } from 'lucide-react';
 
 export default function SuppliesView() {
-  const { data: products, isLoading, isError, error } = useGetProducts();
+  const { data: allProducts, isLoading, isError, error } = useGetProducts();
   const [expandedProductId, setExpandedProductId] = useState<string | null>(null);
+  const products = allProducts?.filter(p => p.category !== 'Ropa Médica') || [];
 
   const toggleProduct = (id: string) => {
     setExpandedProductId(expandedProductId === id ? null : id);

@@ -1,28 +1,70 @@
-// src/features/clothing/components/ClothingView.tsx
-import { useState } from 'react';
-import { Filter, SlidersHorizontal } from 'lucide-react';
-
-// Datos de simulación altamente específicos para validar el comportamiento responsivo de la UI
-const MOCK_CLOTHING = [
-  { id: '1', name: 'Scrub Quirúrgico Antifluido', category: 'Ropa Médica', price: 34.99, image: 'Bata Azul', attributes: { color: 'Azul Quirúrgico', talla: 'S', tela: 'Antifluido Premium', genero: 'Unisex' } },
-  { id: '2', name: 'Bata de Laboratorio Slim Fit', category: 'Ropa Médica', price: 42.50, image: 'Bata Blanca', attributes: { color: 'Blanco Puro', talla: 'M', tela: 'Algodón Egipcio', genero: 'Femenino' } },
-  { id: '3', name: 'Conjunto Scrub Clínico Stretch', category: 'Ropa Médica', price: 48.00, image: 'Scrub Gris', attributes: { color: 'Gris Grafito', talla: 'L', tela: 'Spandex de alta elasticidad', genero: 'Masculino' } },
-];
+import { useState, useMemo } from 'react';
+import { Filter, SlidersHorizontal, Loader2, AlertCircle } from 'lucide-react';
+import { useGetProducts } from '../../catalog/hooks/useGetProducts';
 
 export default function ClothingView() {
+  const { data: allProducts, isLoading, isError, error } = useGetProducts();
   const [selectedColor, setSelectedColor] = useState<string>('Todos');
 
-  // Filtros disponibles (Estos mapearán las claves del JSONB en el futuro)
-  const colors = ['Todos', 'Azul Quirúrgico', 'Blanco Puro', 'Gris Grafito'];
+  // 1. Aplanar Variantes: Extraemos solo "Ropa Médica" y convertimos cada variante en un ítem de la grilla
+  const variantsList = useMemo(() => {
+    if (!allProducts) return [];
+    return allProducts
+      .filter(p => p.category === 'Ropa Médica')
+      .flatMap(product => 
+        product.variants.map(variant => ({
+          productName: product.name,
+          ...variant
+        }))
+      );
+  }, [allProducts]);
+
+  // 2. Extraer filtros dinámicamente según lo que venga de PostgreSQL
+  const colors = useMemo(() => {
+    const colorSet = new Set<string>();
+    variantsList.forEach(v => {
+      if (v.attributes.Color) colorSet.add(v.attributes.Color);
+    });
+    return ['Todos', ...Array.from(colorSet).sort()];
+  }, [variantsList]);
+
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
 
-  const filteredProducts = selectedColor === 'Todos' 
-    ? MOCK_CLOTHING 
-    : MOCK_CLOTHING.filter(p => p.attributes.color === selectedColor);
+  // 3. Aplicar Filtro de UI
+  const filteredVariants = selectedColor === 'Todos' 
+    ? variantsList 
+    : variantsList.filter(v => v.attributes.Color === selectedColor);
+
+  // Utilidad visual para transformar "Scrub_amarilloarena" -> "AMARILLOARENA" en la UI
+  const formatColorLabel = (rawColor?: string) => {
+    if (!rawColor) return 'Estándar';
+    return rawColor.replace(/^Scrub_/i, '').toUpperCase();
+  };
+
+  // Estados de carga (similares a SuppliesView)
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 space-y-4">
+        <Loader2 className="h-8 w-8 text-primary animate-spin" />
+        <p className="text-sm text-slate-500 font-medium animate-pulse">Cargando colección textil...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="rounded-xl border border-red-200 bg-red-50 p-6 max-w-2xl mx-auto flex items-start gap-4">
+        <AlertCircle className="h-6 w-6 text-red-600 shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <h4 className="text-sm font-bold text-red-900 font-sans">Error de Comunicación API</h4>
+          <p className="text-xs text-red-700 leading-relaxed">{error?.message}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
-      {/* Encabezado del Módulo Flagship */}
       <div className="border-b border-slate-100 pb-5">
         <h2 className="text-2xl font-bold tracking-tight text-medical-dark font-sans">
           Colección de Indumentaria Médica Premium
@@ -32,23 +74,19 @@ export default function ClothingView() {
         </p>
       </div>
 
-      {/* Grid Principal Responsivo (1 columna en móvil, 4 en escritorio) */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-        
-        {/* PANEL DE FILTROS: Superior en móvil, Lateral izquierdo en escritorio */}
-        <aside className="space-y-6 bg-white p-5 border border-slate-200 rounded-xl shadow-xs md:col-span-1 h-fit">
+        {/* PANEL DE FILTROS */}
+        <aside className="space-y-6 bg-white p-5 border border-slate-200 rounded-xl shadow-xs md:col-span-1 h-fit sticky top-24">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="text-sm font-semibold text-medical-dark flex items-center gap-2 font-sans">
-              <Filter className="h-4 w-4 text-primary" />
-              Filtros de Búsqueda
+              <Filter className="h-4 w-4 text-primary" /> Filtros
             </h3>
             <SlidersHorizontal className="h-4 w-4 text-slate-400 md:hidden" />
           </div>
 
-          {/* Filtro por Color (Botones responsivos) */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             <label className="text-xs font-bold uppercase tracking-wider text-slate-400">Color de Uniforme</label>
-            <div className="flex flex-wrap gap-2 md:flex-col md:gap-1">
+            <div className="flex flex-wrap gap-2 md:flex-col md:gap-1 max-h-96 overflow-y-auto pr-1">
               {colors.map((color) => (
                 <button
                   key={color}
@@ -59,21 +97,17 @@ export default function ClothingView() {
                       : 'text-slate-600 hover:bg-slate-50 border border-transparent'
                   }`}
                 >
-                  {color}
+                  {formatColorLabel(color)}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Filtro por Talla */}
-          <div className="space-y-2 pt-2 border-t border-slate-100">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">Tallas Disponibles</label>
+          <div className="space-y-2 pt-4 border-t border-slate-100">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">Tallas</label>
             <div className="flex flex-wrap gap-1.5">
               {sizes.map((size) => (
-                <button
-                  key={size}
-                  className="h-8 w-8 text-xs font-semibold rounded-md border border-slate-200 hover:border-primary hover:text-primary transition-colors flex items-center justify-center bg-surface cursor-pointer"
-                >
+                <button key={size} className="h-8 w-8 text-xs font-semibold rounded-md border border-slate-200 hover:border-primary hover:text-primary transition-colors flex items-center justify-center bg-surface cursor-pointer">
                   {size}
                 </button>
               ))}
@@ -81,47 +115,56 @@ export default function ClothingView() {
           </div>
         </aside>
 
-        {/* CONTENEDOR DE PRODUCTOS: Cambia su grilla según el tamaño de pantalla */}
+        {/* CONTENEDOR DE PRODUCTOS (VARIANTES APLANADAS) */}
         <section className="md:col-span-3">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredProducts.map((product) => (
-              <div 
-                key={product.id} 
-                className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs hover:shadow-sm transition-shadow"
-              >
-                {/* Marcador de posición para la imagen del uniforme */}
-                <div className="aspect-square bg-slate-100 flex items-center justify-center group-hover:opacity-90 transition-opacity p-4">
-                  <div className="text-center space-y-1">
+            {filteredVariants.map((variant) => (
+              <div key={variant.id} className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs hover:shadow-sm transition-shadow">
+                
+                {/* RESOLUCIÓN DINÁMICA DE IMÁGENES WEBP */}
+                <div className="aspect-square bg-slate-100 flex items-center justify-center overflow-hidden">
+                  {variant.attributes.Color ? (
+                    <img 
+                      src={`/images/scrubs/llanos/${variant.attributes.Color.toLowerCase()}.webp`} 
+                      alt={`Uniforme ${variant.attributes.Color}`}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.parentElement!.innerHTML = `<span class="text-xs font-bold text-slate-400">Sin Imagen</span>`;
+                      }}
+                    />
+                  ) : (
                     <span className="text-xs font-bold text-primary uppercase bg-sky-50 px-2 py-0.5 rounded border border-sky-100">
-                      {product.attributes.tela}
+                      {variant.attributes.Tela || 'Básico'}
                     </span>
-                    <p className="text-xs text-slate-400 block pt-1">Visualización Previa</p>
-                  </div>
+                  )}
                 </div>
 
-                {/* Detalles técnicos y comerciales */}
                 <div className="flex flex-1 flex-col p-4 space-y-3">
                   <div className="space-y-1">
-                    <p className="text-xs text-slate-400 font-medium tracking-tight">{product.attributes.genero}</p>
+                    <p className="text-xs text-slate-400 font-medium tracking-tight uppercase">
+                      {variant.attributes.Genero || 'Unisex'}
+                    </p>
                     <h4 className="text-sm font-semibold text-medical-dark group-hover:text-primary transition-colors line-clamp-1 font-sans">
-                      {product.name}
+                      {variant.productName}
                     </h4>
                   </div>
 
-                  {/* Badges dinámicos que leen los atributos simulados del JSONB */}
                   <div className="flex flex-wrap gap-1 pt-1">
                     <span className="inline-block px-2 py-0.5 text-[10px] font-medium bg-slate-100 text-slate-600 rounded">
-                      Color: {product.attributes.color}
+                      Color: {formatColorLabel(variant.attributes.Color)}
                     </span>
                     <span className="inline-block px-2 py-0.5 text-[10px] font-medium bg-slate-100 text-slate-600 rounded">
-                      Talla base: {product.attributes.talla}
+                      Talla: {variant.attributes.Talla || 'N/A'}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between pt-2 mt-auto border-t border-slate-50">
-                    <span className="text-base font-bold text-medical-dark">${product.price.toFixed(2)}</span>
+                    <span className="text-base font-bold text-medical-dark">
+                      ${variant.basePrice?.toFixed(2)}
+                    </span>
                     <span className="text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                      Disponible
+                      Stock Activo
                     </span>
                   </div>
                 </div>
@@ -129,7 +172,6 @@ export default function ClothingView() {
             ))}
           </div>
         </section>
-
       </div>
     </div>
   );
