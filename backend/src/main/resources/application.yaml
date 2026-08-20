@@ -1,9 +1,7 @@
-# backend/src/main/resources/application.yaml
 spring:
   application:
     name: business-core
 
-  # Fíjate que datasource y jpa ahora tienen 2 espacios de sangría
   datasource:
     url: jdbc:postgresql://localhost:5432/medical_biosecurity
     username: admin
@@ -12,14 +10,18 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update # Crea las tablas automáticamente basado en las entidades
-    show-sql: true # Para que veas las consultas en la consola
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# Configuración de logs (esta sí va al margen izquierdo porque es otra raíz)
+# Clave de acceso administrativa perimetral
+security:
+  admin:
+    secret-key: ${ADMIN_SECRET_KEY:MedicalAdmin2026!}
+
 logging:
   level:
     org.hibernate.SQL: DEBUG
