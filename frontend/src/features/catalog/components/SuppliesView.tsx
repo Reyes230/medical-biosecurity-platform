@@ -1,5 +1,4 @@
-// src/features/catalog/components/SuppliesView.tsx
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { useGetProducts } from '../hooks/useGetProducts';
 import { COMPANY_INFO } from '../../../config/company.config';
 import { AlertCircle, ChevronDown, ChevronUp, Loader2, Package, MessageSquare, Tag } from 'lucide-react';
@@ -77,13 +76,13 @@ export default function SuppliesView() {
             {products.map((product) => {
               const isExpanded = expandedProductId === product.id;
               
-              // ◄ LÓGICA: Obtenemos el precio de la primera variante como el precio base inicial
+              // Obtenemos el precio de la primera variante como el precio base inicial
               const firstVariantPrice = product.variants && product.variants.length > 0 
                 ? (product.variants[0].basePrice ?? 0) 
                 : 0;
 
               return (
-                <div key={product.id} className="contents">
+                <Fragment key={product.id}>
                   {/* Fila Principal de Producto */}
                   <tr 
                     onClick={() => toggleProduct(product.id)}
@@ -129,7 +128,7 @@ export default function SuppliesView() {
                             {product.variants?.map((variant) => {
                               const safeVariantPrice = variant.basePrice ?? 0;
                               
-                              // Mensaje para WhatsApp con los datos corregidos mapeando tu JSON real
+                              // Mensaje para WhatsApp con los datos correspondientes
                               const whatsappText = `Hola ${COMPANY_INFO.name}, estoy interesado en cotizar el siguiente insumo clínico:\n\n*Producto:* ${product.name}\n*SKU:* ${variant.sku}\n*Precio:* $${safeVariantPrice.toFixed(2)} ${variant.currency || 'USD'}`;
                               const variantWhatsappUrl = `https://wa.me/${COMPANY_INFO.whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
 
@@ -141,7 +140,7 @@ export default function SuppliesView() {
                                       <span className="font-bold text-primary">${safeVariantPrice.toFixed(2)} {variant.currency || 'USD'}</span>
                                     </div>
                                     
-                                    {/* Renderizado 100% dinámico del mapa de atributos JSONB */}
+                                    {/* Renderizado dinámico del mapa de atributos JSONB */}
                                     <div className="space-y-1">
                                       <p className="text-[10px] font-bold text-slate-400 uppercase">Atributos Técnicos:</p>
                                       {variant.attributes && Object.entries(variant.attributes).length > 0 ? (
@@ -183,7 +182,7 @@ export default function SuppliesView() {
                       </td>
                     </tr>
                   )}
-                </div>
+                </Fragment>
               );
             })}
           </tbody>

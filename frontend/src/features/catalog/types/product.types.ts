@@ -1,13 +1,11 @@
-// Representa el mapa dinámico JSONB de PostgreSQL
 export type DynamicAttributes = Record<string, string>;
 
 export interface VariantResponse {
   id: string;
   sku: string;
-  basePrice: number;   // ◄ Cambiado de 'price' a 'basePrice' para alinearse con tu Backend
-  currency: string;    // ◄ Añadido ya que viene en tu JSON
+  basePrice: number;
+  currency: string;
   attributes: DynamicAttributes;
-  stock?: number;      // ◄ Lo dejamos opcional ya que no viene en el JSON actual
 }
 
 export interface ProductCatalogResponse {
@@ -15,20 +13,30 @@ export interface ProductCatalogResponse {
   name: string;
   description: string;
   category: string;
-  variants: VariantResponse[]; // ◄ Removimos basePrice de la raíz porque tu JSON no lo trae ahí
+  variants: VariantResponse[];
 }
 
-export interface RegisterVariantRequest {
-  sku: string;
-  price: number;
-  stock: number;
-  attributes: DynamicAttributes;
-}
-
-export interface RegisterProductRequest {
+export interface CreateProductRequest {
   name: string;
   description: string;
   category: string;
+  sku: string;
   basePrice: number;
-  variants: RegisterVariantRequest[];
+  currency: string;
+  attributes: DynamicAttributes;
+}
+
+export interface UpdateVariantRequest {
+  id?: string;
+  sku: string;
+  basePrice: number;
+  currency: string;
+  attributes: DynamicAttributes;
+}
+
+export interface UpdateProductRequest {
+  name: string;
+  description: string;
+  category: string;
+  variants: UpdateVariantRequest[];
 }

@@ -1,24 +1,29 @@
 import { useState, useMemo } from 'react';
 import { Filter, SlidersHorizontal, Loader2, AlertCircle, ArrowLeft, MessageSquare } from 'lucide-react';
 import { useGetProducts } from '../../catalog/hooks/useGetProducts';
+import type { VariantResponse } from '../../catalog/types/product.types';
 import { COMPANY_INFO } from '../../../config/company.config';
+
+interface ClothingVariantItem extends VariantResponse {
+  productName: string;
+  productDescription: string;
+}
 
 export default function ClothingView() {
   const { data: allProducts, isLoading, isError, error } = useGetProducts();
   const [selectedColor, setSelectedColor] = useState<string>('Todos');
   
-  // NUEVO ESTADO: Maneja la variante seleccionada para la vista de detalle
-  const [selectedVariant, setSelectedVariant] = useState<any | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<ClothingVariantItem | null>(null);
 
-  const variantsList = useMemo(() => {
+  const variantsList: ClothingVariantItem[] = useMemo(() => {
     if (!allProducts) return [];
     return allProducts
       .filter(p => p.category === 'Ropa Médica')
       .flatMap(product => 
         product.variants.map(variant => ({
+          ...variant,
           productName: product.name,
-          productDescription: product.description, // Traemos la descripción del padre
-          ...variant
+          productDescription: product.description,
         }))
       );
   }, [allProducts]);
@@ -63,9 +68,6 @@ export default function ClothingView() {
     );
   }
 
-  // ==========================================
-  // VISTA DE DETALLE INDIVIDUAL
-  // ==========================================
   if (selectedVariant) {
     const whatsappText = `Hola ${COMPANY_INFO.name}, me gustaría cotizar el siguiente uniforme:\n\n*Producto:* ${selectedVariant.productName}\n*Color:* ${formatColorLabel(selectedVariant.attributes.Color)}\n*SKU:* ${selectedVariant.sku}\n*Precio Ref:* $${selectedVariant.basePrice?.toFixed(2)} ${selectedVariant.currency || 'USD'}`;
     const variantWhatsappUrl = `https://wa.me/${COMPANY_INFO.whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
@@ -80,8 +82,6 @@ export default function ClothingView() {
         </button>
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row">
-          
-          {/* Columna Izquierda: Imagen Grande */}
           <div className="md:w-1/2 bg-slate-50 p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-100">
             {selectedVariant.attributes.Color ? (
               <img 
@@ -100,7 +100,6 @@ export default function ClothingView() {
             )}
           </div>
 
-          {/* Columna Derecha: Información y CTA */}
           <div className="md:w-1/2 p-8 flex flex-col justify-between">
             <div className="space-y-6">
               <div>
@@ -166,9 +165,6 @@ export default function ClothingView() {
     );
   }
 
-  // ==========================================
-  // VISTA DE GRILLA (CATÁLOGO PRINCIPAL)
-  // ==========================================
   return (
     <div className="space-y-6">
       <div className="border-b border-slate-100 pb-5">
@@ -181,7 +177,6 @@ export default function ClothingView() {
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-        {/* PANEL DE FILTROS */}
         <aside className="space-y-6 bg-white p-5 border border-slate-200 rounded-xl shadow-xs md:col-span-1 h-fit sticky top-24">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="text-sm font-semibold text-medical-dark flex items-center gap-2 font-sans">
@@ -221,17 +216,15 @@ export default function ClothingView() {
           </div>
         </aside>
 
-        {/* CONTENEDOR DE PRODUCTOS */}
         <section className="md:col-span-3">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredVariants.map((variant) => (
               <div 
                 key={variant.id} 
-                onClick={() => setSelectedVariant(variant)} // Acción que activa la vista de detalle
+                onClick={() => setSelectedVariant(variant)}
                 className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs hover:shadow-md transition-all cursor-pointer"
               >
                 <div className="aspect-square bg-slate-100 flex items-center justify-center overflow-hidden relative">
-                  {/* Capa superpuesta para indicar que es clickeable */}
                   <div className="absolute inset-0 bg-medical-dark/0 group-hover:bg-medical-dark/5 transition-colors z-10"></div>
                   
                   {variant.attributes.Color ? (

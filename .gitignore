@@ -23,3 +23,15 @@ Thumbs.db
 
 # Logs
 *.log
+
+# AI / Repomix dumps
+repomix-output.xml
+*-output.xml
+
+# Archivos de datos crudos / Excel
+*.xlsx
+*.xls
+*.csv
+
+# Archivos temporales de generación
+frontend/nuevas-variantes.json
