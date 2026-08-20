@@ -1,4 +1,3 @@
-// backend/src/main/java/com/medbiosecurity/business_core/catalog/infrastructure/persistence/ProductRepositoryAdapter.java
 package com.medbiosecurity.business_core.catalog.infrastructure.persistence;
 
 import com.medbiosecurity.business_core.catalog.domain.model.Product;
@@ -9,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -24,13 +24,24 @@ public class ProductRepositoryAdapter implements ProductRepository {
 
     @Override
     public Optional<Product> findById(ProductId id) {
-        // Implementaremos toDomain más adelante cuando necesitemos buscar
         return jpaRepository.findById(id.value())
-                .map(entity -> null); // Placeholder para no complicar el avance ahora
+                .map(ProductMapper::toDomain);
     }
 
     @Override
     public List<Product> findAll() {
-        return List.of(); // Placeholder
+        return jpaRepository.findAll().stream()
+                .map(ProductMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteById(ProductId id) {
+        jpaRepository.deleteById(id.value());
+    }
+
+    @Override
+    public boolean existsById(ProductId id) {
+        return jpaRepository.existsById(id.value());
     }
 }

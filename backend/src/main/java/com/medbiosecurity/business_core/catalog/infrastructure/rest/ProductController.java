@@ -1,18 +1,16 @@
-// backend/src/main/java/com/medbiosecurity/business_core/catalog/infrastructure/rest/ProductController.java
 package com.medbiosecurity.business_core.catalog.infrastructure.rest;
 
+import com.medbiosecurity.business_core.catalog.application.dto.ProductCatalogResponse;
 import com.medbiosecurity.business_core.catalog.application.dto.RegisterProductRequest;
-import com.medbiosecurity.business_core.catalog.application.usecase.RegisterProductUseCase;
+import com.medbiosecurity.business_core.catalog.application.dto.UpdateProductRequest;
+import com.medbiosecurity.business_core.catalog.application.usecase.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
-import com.medbiosecurity.business_core.catalog.application.dto.ProductCatalogResponse;
-import com.medbiosecurity.business_core.catalog.application.usecase.GetProductCatalogService;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -22,17 +20,35 @@ public class ProductController {
 
     private final RegisterProductUseCase registerProductUseCase;
     private final GetProductCatalogService getProductCatalogService;
+    private final GetProductByIdService getProductByIdService;
+    private final UpdateProductUseCase updateProductUseCase;
+    private final DeleteProductUseCase deleteProductUseCase;
 
     @PostMapping
     public ResponseEntity<UUID> createProduct(@RequestBody RegisterProductRequest request) {
-        // El controlador solo delega la ejecución al caso de uso
         UUID productId = registerProductUseCase.execute(request);
-
-        // Retornamos 201 Created con el ID del nuevo recurso
         return new ResponseEntity<>(productId, HttpStatus.CREATED);
     }
-    @GetMapping // El nuevo botón para Postman
+
+    @GetMapping
     public ResponseEntity<List<ProductCatalogResponse>> getAllProducts() {
         return ResponseEntity.ok(getProductCatalogService.execute());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductCatalogResponse> getProductById(@PathVariable UUID id) {
+        return ResponseEntity.ok(getProductByIdService.execute(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateProduct(@PathVariable UUID id, @RequestBody UpdateProductRequest request) {
+        updateProductUseCase.execute(id, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
+        deleteProductUseCase.execute(id);
+        return ResponseEntity.noContent().build();
     }
 }

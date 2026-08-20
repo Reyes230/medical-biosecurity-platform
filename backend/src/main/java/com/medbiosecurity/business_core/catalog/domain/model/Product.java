@@ -1,4 +1,3 @@
-//C:\Users\matis\OneDrive\Documents\medical-biosecurity-platform\backend\src\main\java\com\medbiosecurity\business_core\catalog\domain\model/Product.java
 package com.medbiosecurity.business_core.catalog.domain.model;
 
 import java.util.ArrayList;
@@ -25,26 +24,29 @@ public class Product {
         this.variants.add(variant);
     }
 
-    /**
-     * Regla de negocio: Un producto es genérico si solo tiene una variante
-     * y no tiene atributos específicos (ej. Guantes de látex estándar).
-     */
+    public void clearVariants() {
+        this.variants.clear();
+    }
+
+    public void updateDetails(String name, String description, Category category) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Product name cannot be empty");
+        }
+        if (category == null) {
+            throw new IllegalArgumentException("Category cannot be null");
+        }
+        this.name = name;
+        this.description = description;
+        this.category = category;
+    }
+
     public boolean isGeneric() {
         return variants.size() == 1 && variants.get(0).getAttribute("Talla") == null;
     }
 
     public ProductId getId() { return id; }
-
     public String getName() { return name; }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-    public List<ProductVariant> getVariants() {
-        return Collections.unmodifiableList(variants);
-    }
+    public String getDescription() { return description; }
+    public Category getCategory() { return category; }
+    public List<ProductVariant> getVariants() { return Collections.unmodifiableList(variants); }
 }
