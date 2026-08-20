@@ -12,6 +12,7 @@ import {
   Clock,
   Shirt,
   Stethoscope,
+  Activity,
 } from 'lucide-react';
 import { COMPANY_INFO } from '../../../config/company.config';
 
@@ -49,40 +50,84 @@ export default function HomeView() {
 
   return (
     <div className="space-y-16 py-4">
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/80 p-8 sm:p-14 shadow-xs">
+      {/* ================= HERO SECTION (SPLIT HERO) ================= */}
+      <section className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/80 p-6 sm:p-10 lg:p-12 shadow-xs">
         <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-sky-50/70 blur-3xl pointer-events-none" />
         <div className="absolute -left-20 -bottom-20 h-80 w-80 rounded-full bg-teal-50/70 blur-3xl pointer-events-none" />
 
-        <div className="relative max-w-3xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full bg-sky-50 px-4 py-1.5 text-xs font-bold text-primary border border-sky-200 shadow-2xs">
-            <Sparkles className="h-3.5 w-3.5" />
-            Excelencia en Suministros Clínicos y Textiles
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Columna Izquierda: Mensaje y Acción */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            <div className="inline-flex items-center gap-2 rounded-full bg-sky-50 px-3.5 py-1.5 text-xs font-bold text-primary border border-sky-200 shadow-2xs">
+              <Sparkles className="h-3.5 w-3.5" />
+              Suministros Clínicos & Confección Especializada
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-medical-dark font-sans leading-tight">
+              Equipamiento Médico y{' '}
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-teal-600">
+                Textiles Quirúrgicos de Vanguardia
+              </span>
+            </h1>
+
+            <p className="text-sm sm:text-base text-slate-500 leading-relaxed max-w-xl">
+              En <strong className="text-medical-dark font-semibold">{COMPANY_INFO.name}</strong> proveemos
+              dispositivos de bioseguridad, instrumental clínico y una línea exclusiva de uniformes médicos con diseño anatómico y tecnología antifluidos.
+            </p>
+
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <a
+                href={generalWhatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-3.5 text-sm font-bold text-white shadow-xs hover:bg-emerald-700 hover:shadow-md transition-all cursor-pointer font-sans"
+              >
+                <MessageSquare className="h-4 w-4" />
+                Cotizar Catálogo por WhatsApp
+              </a>
+            </div>
+
+            {/* Badges de Garantía Rápida */}
+            <div className="flex flex-wrap gap-4 pt-2 border-t border-slate-100 text-xs text-slate-500 font-semibold">
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-4 w-4 text-primary" />
+                <span>Textil Antifluido Premium</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-4 w-4 text-primary" />
+                <span>Modelos Anatómicos y Personalizados</span>
+              </div>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-medical-dark font-sans leading-tight">
-            Equipamiento Médico y{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-600">
-              Textiles Quirúrgicos
-            </span>
-          </h1>
+          {/* Columna Derecha: Imagen de Modelo Real */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative overflow-hidden rounded-2xl border border-slate-200/90 shadow-md bg-slate-50 group">
+              <img
+                src="/images/hero-scrubs.jpeg"
+                alt="Colección de uniformes y scrubs médicos anatómicos"
+                className="w-full h-auto max-h-110 object-cover object-center transition-transform duration-700 group-hover:scale-103"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement!.innerHTML = `
+                    <div class="h-80 flex flex-col items-center justify-center text-slate-400 gap-2 p-6 text-center">
+                      <span class="text-sm font-bold">Coloca la imagen en: /public/images/hero-scrubs.jpeg</span>
+                    </div>
+                  `;
+                }}
+              />
 
-          <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
-            En <strong className="text-medical-dark font-semibold">{COMPANY_INFO.name}</strong> proveemos
-            soluciones integrales en bioseguridad, instrumental clínico y uniformes médicos antifluido con los más altos
-            estándares de calidad.
-          </p>
-
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a
-              href={generalWhatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-6 py-3.5 text-sm font-bold text-white shadow-xs hover:bg-emerald-700 hover:shadow-md transition-all cursor-pointer font-sans"
-            >
-              <MessageSquare className="h-4 w-4" />
-              Solicitar Cotización por WhatsApp
-            </a>
+              {/* Tag Flotante sobre la Imagen */}
+              <div className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-md p-3 rounded-xl border border-white/80 shadow-xs flex items-center justify-between text-xs">
+                <div>
+                  <span className="block font-bold text-medical-dark font-sans">Línea Temática & Especialidades</span>
+                  <span className="block text-[11px] text-slate-500">Fisioterapia • Anatomía • Clínica</span>
+                </div>
+                <div className="h-8 w-8 rounded-lg bg-sky-50 flex items-center justify-center text-primary">
+                  <Activity className="h-4 w-4" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -149,7 +194,6 @@ export default function HomeView() {
 
       {/* ================= CANALES DE ATENCIÓN Y MINIMAPA ================= */}
       <section className="grid grid-cols-1 gap-8 lg:grid-cols-3 bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-10 shadow-xs max-w-5xl mx-auto">
-        {/* Canales Directos */}
         <div className="space-y-6 lg:col-span-1 flex flex-col justify-between">
           <div className="space-y-5">
             <div className="space-y-1.5">
@@ -208,7 +252,6 @@ export default function HomeView() {
           </a>
         </div>
 
-        {/* Minimapa */}
         <div className="lg:col-span-2 min-h-80 sm:min-h-96 rounded-2xl overflow-hidden border border-slate-200 shadow-inner relative group bg-slate-50">
           <iframe
             title={`Ubicación de ${COMPANY_INFO.name}`}
