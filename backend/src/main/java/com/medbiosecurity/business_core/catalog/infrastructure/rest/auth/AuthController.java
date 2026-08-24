@@ -1,5 +1,6 @@
 package com.medbiosecurity.business_core.catalog.infrastructure.rest.auth;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class AuthController {
     private String adminSecretKey;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         if (request.password() != null && request.password().equals(adminSecretKey)) {
             return ResponseEntity.ok(new LoginResponse(true, adminSecretKey));
         }

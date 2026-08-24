@@ -1,3 +1,8 @@
 package com.medbiosecurity.business_core.catalog.infrastructure.rest.auth;
 
-public record LoginRequest(String password) {}
+import jakarta.validation.constraints.NotBlank;
+
+public record LoginRequest(
+        @NotBlank(message = "La clave de seguridad es obligatoria")
+        String password
+) {}

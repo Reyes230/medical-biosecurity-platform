@@ -4,6 +4,7 @@ import com.medbiosecurity.business_core.catalog.application.dto.ProductCatalogRe
 import com.medbiosecurity.business_core.catalog.application.dto.RegisterProductRequest;
 import com.medbiosecurity.business_core.catalog.application.dto.UpdateProductRequest;
 import com.medbiosecurity.business_core.catalog.application.usecase.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class ProductController {
     private final DeleteProductUseCase deleteProductUseCase;
 
     @PostMapping
-    public ResponseEntity<UUID> createProduct(@RequestBody RegisterProductRequest request) {
+    public ResponseEntity<UUID> createProduct(@Valid @RequestBody RegisterProductRequest request) {
         UUID productId = registerProductUseCase.execute(request);
         return new ResponseEntity<>(productId, HttpStatus.CREATED);
     }
@@ -40,7 +41,10 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable UUID id, @RequestBody UpdateProductRequest request) {
+    public ResponseEntity<Void> updateProduct(
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdateProductRequest request
+    ) {
         updateProductUseCase.execute(id, request);
         return ResponseEntity.noContent().build();
     }
