@@ -3,26 +3,28 @@ spring:
     name: business-core
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/medical_biosecurity
-    username: admin
-    password: password123
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/medical_biosecurity}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:password123}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SHOW_SQL:false}
     properties:
       hibernate:
-        format_sql: true
+        format_sql: ${FORMAT_SQL:false}
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# Clave de acceso administrativa perimetral
 security:
   admin:
     secret-key: ${ADMIN_SECRET_KEY:MedicalAdmin2026!}
 
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
+
 logging:
   level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.SQL: ${HIBERNATE_LOG_LEVEL:WARN}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${HIBERNATE_BINDER_LOG_LEVEL:WARN}
