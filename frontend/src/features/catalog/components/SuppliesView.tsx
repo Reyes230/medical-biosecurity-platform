@@ -14,12 +14,16 @@ import {
   Stethoscope,
   ShieldCheck,
   CheckCircle2,
+  Search,
+  X,
+  RotateCcw,
 } from 'lucide-react';
 
 export default function SuppliesView() {
   const { data: allProducts, isLoading, isError, error } = useGetProducts();
   const [expandedProductId, setExpandedProductId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
 
   const products = useMemo(() => {
@@ -35,12 +39,29 @@ export default function SuppliesView() {
   }, [products]);
 
   const filteredProducts = useMemo(() => {
-    if (selectedCategory === 'Todas') return products;
-    return products.filter((p) => p.category === selectedCategory);
-  }, [products, selectedCategory]);
+    const term = searchTerm.toLowerCase().trim();
+
+    return products.filter((p) => {
+      const matchCategory = selectedCategory === 'Todas' || p.category === selectedCategory;
+      if (!matchCategory) return false;
+
+      if (!term) return true;
+
+      const matchName = p.name.toLowerCase().includes(term);
+      const matchDescription = p.description ? p.description.toLowerCase().includes(term) : false;
+      const matchSku = p.variants?.some((v) => v.sku.toLowerCase().includes(term)) ?? false;
+
+      return matchName || matchDescription || matchSku;
+    });
+  }, [products, selectedCategory, searchTerm]);
 
   const toggleProduct = (id: string) => {
     setExpandedProductId(expandedProductId === id ? null : id);
+  };
+
+  const handleClearFilters = () => {
+    setSelectedCategory('Todas');
+    setSearchTerm('');
   };
 
   if (isLoading) {
@@ -110,34 +131,64 @@ export default function SuppliesView() {
         </div>
       </div>
 
-      {/* Píldoras de Categorías */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
-        {categories.map((category) => {
-          const isSelected = selectedCategory === category;
-          return (
+      {/* Barra de Búsqueda y Filtros de Categorías */}
+      <div className="space-y-4">
+        <div className="relative max-w-md">
+          <Search className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Buscar por nombre, SKU o descripción..."
+            className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-10 pr-9 text-xs text-medical-dark placeholder:text-slate-400 shadow-2xs focus:border-primary focus:outline-hidden"
+          />
+          {searchTerm && (
             <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`shrink-0 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                isSelected
-                  ? 'bg-medical-dark text-white shadow-xs'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-              }`}
+              onClick={() => setSearchTerm('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
             >
-              {category}
+              <X className="h-3.5 w-3.5" />
             </button>
-          );
-        })}
+          )}
+        </div>
+
+        {/* Píldoras de Categorías */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
+          {categories.map((category) => {
+            const isSelected = selectedCategory === category;
+            return (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`shrink-0 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
+                  isSelected
+                    ? 'bg-medical-dark text-white shadow-xs'
+                    : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                }`}
+              >
+                {category}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Contenido Dinámico */}
       {filteredProducts.length === 0 ? (
         <div className="text-center py-16 border border-dashed border-slate-200 bg-white rounded-2xl space-y-3">
           <Package className="h-8 w-8 text-slate-300 mx-auto" />
-          <h4 className="text-sm font-bold text-medical-dark">No hay productos en esta categoría</h4>
+          <h4 className="text-sm font-bold text-medical-dark">No se encontraron productos</h4>
           <p className="text-xs text-slate-400 max-w-xs mx-auto">
-            Selecciona otra categoría para visualizar los insumos registrados.
+            No hay insumos que coincidan con los criterios de búsqueda aplicados.
           </p>
+          {(searchTerm || selectedCategory !== 'Todas') && (
+            <button
+              onClick={handleClearFilters}
+              className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-sky-700 cursor-pointer"
+            >
+              <RotateCcw className="h-3.5 w-3.5" /> Limpiar filtros de búsqueda
+            </button>
+          )}
         </div>
       ) : viewMode === 'table' ? (
         /* ================= VISTA DE TABLA ================= */
