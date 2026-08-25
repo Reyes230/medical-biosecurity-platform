@@ -10,18 +10,23 @@ import {
   RotateCcw,
   Check,
   Tag,
+  ShoppingBag,
 } from 'lucide-react';
 import { useGetProducts } from '../../catalog/hooks/useGetProducts';
-import type { VariantResponse } from '../../catalog/types/product.types';
+import { useCart } from '../../cart/context/CartContext';
+import type { VariantResponse, ProductCatalogResponse } from '../../catalog/types/product.types';
 import { COMPANY_INFO } from '../../../config/company.config';
 
 interface ClothingVariantItem extends VariantResponse {
+  productId: string;
   productName: string;
   productDescription: string;
 }
 
 export default function ClothingView() {
   const { data: allProducts, isLoading, isError, error } = useGetProducts();
+  const { addItem } = useCart();
+
   const [selectedColor, setSelectedColor] = useState<string>('Todos');
   const [selectedSize, setSelectedSize] = useState<string>('Todas');
   const [selectedVariant, setSelectedVariant] = useState<ClothingVariantItem | null>(null);
@@ -29,10 +34,11 @@ export default function ClothingView() {
   const variantsList: ClothingVariantItem[] = useMemo(() => {
     if (!allProducts) return [];
     return allProducts
-      .filter((p) => p.category === 'Ropa Médica')
-      .flatMap((product) =>
-        product.variants.map((variant) => ({
+      .filter((p: ProductCatalogResponse) => p.category === 'Ropa Médica')
+      .flatMap((product: ProductCatalogResponse) =>
+        product.variants.map((variant: VariantResponse) => ({
           ...variant,
+          productId: product.id,
           productName: product.name,
           productDescription: product.description,
         }))
@@ -113,7 +119,6 @@ export default function ClothingView() {
         </button>
 
         <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col lg:flex-row">
-          {/* Panel Izquierdo: Visualizador de Prenda */}
           <div className="lg:w-1/2 bg-radial from-slate-50 to-slate-100/60 p-8 sm:p-12 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-slate-100 relative min-h-95">
             <div className="absolute top-4 left-4 flex gap-2">
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-white text-primary border border-sky-100 shadow-2xs">
@@ -142,7 +147,6 @@ export default function ClothingView() {
             )}
           </div>
 
-          {/* Panel Derecho: Ficha Técnica y Cotizador */}
           <div className="lg:w-1/2 p-8 sm:p-10 flex flex-col justify-between space-y-8">
             <div className="space-y-6">
               <div className="space-y-2">
@@ -163,7 +167,6 @@ export default function ClothingView() {
                 </p>
               </div>
 
-              {/* Especificaciones Clave */}
               <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50/70 border border-slate-100 text-xs">
                 <div className="space-y-1">
                   <span className="text-slate-400 uppercase font-bold text-[10px] tracking-wide">Color de Tela</span>
@@ -186,7 +189,6 @@ export default function ClothingView() {
               </div>
             </div>
 
-            {/* Bloque de Precio y WhatsApp CTA */}
             <div className="space-y-4 pt-6 border-t border-slate-100">
               <div className="flex items-baseline gap-2">
                 <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Precio Unitario:</span>
@@ -196,15 +198,37 @@ export default function ClothingView() {
                 <span className="text-xs font-bold text-slate-400">{selectedVariant.currency || 'USD'}</span>
               </div>
 
-              <a
-                href={variantWhatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2.5 rounded-2xl bg-emerald-600 px-6 py-4 text-sm font-bold text-white shadow-xs hover:bg-emerald-700 hover:shadow-md transition-all cursor-pointer font-sans"
-              >
-                <MessageSquare className="h-4 w-4" />
-                Cotizar este uniforme por WhatsApp
-              </a>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() =>
+                    addItem({
+                      variantId: selectedVariant.id,
+                      productId: selectedVariant.productId,
+                      productName: `${selectedVariant.productName} (${colorFormatted})`,
+                      sku: selectedVariant.sku,
+                      price: selectedVariant.basePrice,
+                      currency: selectedVariant.currency || 'USD',
+                      attributes: selectedVariant.attributes,
+                      category: 'Ropa Médica',
+                    })
+                  }
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-3.5 text-sm font-bold text-white shadow-xs hover:bg-sky-700 transition-all cursor-pointer font-sans"
+                >
+                  <ShoppingBag className="h-4 w-4" />
+                  Añadir a mi Pedido
+                </button>
+
+                <a
+                  href={variantWhatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3.5 text-sm font-bold text-white shadow-xs hover:bg-emerald-700 transition-all cursor-pointer font-sans"
+                >
+                  <MessageSquare className="h-4 w-4" />
+                  Cotizar Directo
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -217,7 +241,6 @@ export default function ClothingView() {
   // ==========================================
   return (
     <div className="space-y-8">
-      {/* Header Visual */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/70 pb-6">
         <div className="space-y-1.5">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary bg-sky-50 px-2.5 py-1 rounded-md border border-sky-100">
@@ -237,7 +260,6 @@ export default function ClothingView() {
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-        {/* PANEL LATERAL DE FILTROS */}
         <aside className="space-y-6 bg-white p-6 border border-slate-200/80 rounded-2xl shadow-xs lg:col-span-1 h-fit sticky top-24">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-medical-dark flex items-center gap-2 font-sans">
@@ -253,7 +275,6 @@ export default function ClothingView() {
             )}
           </div>
 
-          {/* Filtro por Tallas */}
           <div className="space-y-2.5">
             <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Talla</label>
             <div className="grid grid-cols-3 gap-1.5">
@@ -276,7 +297,6 @@ export default function ClothingView() {
             </div>
           </div>
 
-          {/* Filtro por Color */}
           <div className="space-y-2.5 pt-4 border-t border-slate-100">
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Color</label>
@@ -304,7 +324,6 @@ export default function ClothingView() {
           </div>
         </aside>
 
-        {/* CONTENEDOR DE PRODUCTOS (GRILLA) */}
         <section className="lg:col-span-3">
           {filteredVariants.length === 0 ? (
             <div className="text-center py-16 border border-dashed border-slate-200 bg-white rounded-2xl space-y-3">
@@ -328,7 +347,6 @@ export default function ClothingView() {
                   onClick={() => setSelectedVariant(variant)}
                   className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xs hover:shadow-lg hover:border-slate-300 transition-all duration-300 cursor-pointer"
                 >
-                  {/* Encabezado Visual */}
                   <div className="aspect-square bg-radial from-slate-50 to-slate-100/70 flex items-center justify-center overflow-hidden relative p-4">
                     <div className="absolute top-3 left-3 z-10">
                       <span className="inline-block px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-white/90 backdrop-blur-xs text-medical-dark rounded-md border border-slate-200 shadow-2xs">
@@ -357,7 +375,6 @@ export default function ClothingView() {
                     )}
                   </div>
 
-                  {/* Detalle Textual */}
                   <div className="flex flex-1 flex-col p-4 space-y-3">
                     <div className="space-y-1">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">

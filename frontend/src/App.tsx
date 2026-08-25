@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { CartProvider } from './features/cart/context/CartContext';
+import CartDrawer from './features/cart/components/CartDrawer';
 import PublicLayout from './layouts/PublicLayout';
 import HomeView from './features/marketing/components/HomeView';
 import ClothingView from './features/clothing/components/ClothingView';
@@ -37,24 +39,28 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <PublicLayout
-        currentTab={activeTab}
-        onTabChange={setActiveTab}
-        isAdminAuthenticated={isAdminAuthenticated}
-        onOpenLoginModal={() => setIsLoginModalOpen(true)}
-        onLogout={handleLogout}
-      >
-        {activeTab === 'home' && <HomeView />}
-        {activeTab === 'clothing' && <ClothingView />}
-        {activeTab === 'supplies' && <SuppliesView />}
-        {activeTab === 'admin' && isAdminAuthenticated && <AdminCatalogView />}
-      </PublicLayout>
+      <CartProvider>
+        <PublicLayout
+          currentTab={activeTab}
+          onTabChange={setActiveTab}
+          isAdminAuthenticated={isAdminAuthenticated}
+          onOpenLoginModal={() => setIsLoginModalOpen(true)}
+          onLogout={handleLogout}
+        >
+          {activeTab === 'home' && <HomeView />}
+          {activeTab === 'clothing' && <ClothingView />}
+          {activeTab === 'supplies' && <SuppliesView />}
+          {activeTab === 'admin' && isAdminAuthenticated && <AdminCatalogView />}
+        </PublicLayout>
 
-      <AdminLoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-        onSuccess={handleLoginSuccess}
-      />
+        <CartDrawer />
+
+        <AdminLoginModal
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+          onSuccess={handleLoginSuccess}
+        />
+      </CartProvider>
     </QueryClientProvider>
   );
 }

@@ -6,9 +6,9 @@ import {
   Users,
   Menu,
   X,
-  MessageSquare,
+  ShoppingBag,
 } from 'lucide-react';
-import { COMPANY_INFO } from '../../config/company.config';
+import { useCart } from '../../features/cart/context/CartContext';
 
 interface PublicNavbarProps {
   currentTab: string;
@@ -17,6 +17,7 @@ interface PublicNavbarProps {
 
 export default function PublicNavbar({ currentTab, onTabChange }: PublicNavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { totalItems, toggleCart } = useCart();
 
   const navItems = [
     { id: 'home', label: 'Quiénes Somos', icon: Users },
@@ -28,10 +29,6 @@ export default function PublicNavbar({ currentTab, onTabChange }: PublicNavbarPr
     onTabChange(tabId);
     setIsMobileMenuOpen(false);
   };
-
-  const quickWhatsappUrl = `https://wa.me/${COMPANY_INFO.whatsappNumber}?text=Hola%20${encodeURIComponent(
-    COMPANY_INFO.name
-  )}%2C%20quisiera%20consultar%20sobre%20su%20cat%C3%A1logo%20disponible.`;
 
   return (
     <nav className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur-md shadow-2xs">
@@ -77,17 +74,20 @@ export default function PublicNavbar({ currentTab, onTabChange }: PublicNavbarPr
             })}
           </div>
 
-          {/* Botón WhatsApp Desktop & Trigger Móvil */}
+          {/* Botón Carrito & Trigger Móvil */}
           <div className="flex items-center gap-3">
-            <a
-              href={quickWhatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden lg:inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white shadow-2xs hover:bg-emerald-700 transition-colors cursor-pointer"
+            <button
+              onClick={toggleCart}
+              className="relative inline-flex items-center gap-2 rounded-xl bg-primary px-3.5 py-2 text-xs font-bold text-white shadow-2xs hover:bg-sky-700 transition-colors cursor-pointer"
             >
-              <MessageSquare className="h-3.5 w-3.5" />
-              Cotizar Inmediato
-            </a>
+              <ShoppingBag className="h-4 w-4" />
+              <span className="hidden sm:inline">Mi Pedido</span>
+              {totalItems > 0 && (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-primary text-[10px] font-extrabold">
+                  {totalItems}
+                </span>
+              )}
+            </button>
 
             {/* Toggle Móvil */}
             <button
@@ -101,7 +101,7 @@ export default function PublicNavbar({ currentTab, onTabChange }: PublicNavbarPr
         </div>
       </div>
 
-      {/* Menú Desplegable Móvil */}
+      {/* Menú Móvil */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-slate-200/80 bg-white p-4 space-y-2 animate-in slide-in-from-top-2 duration-200 shadow-md">
           {navItems.map((item) => {
@@ -122,17 +122,6 @@ export default function PublicNavbar({ currentTab, onTabChange }: PublicNavbarPr
               </button>
             );
           })}
-
-          <div className="pt-2">
-            <a
-              href={quickWhatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-xs font-bold text-white shadow-2xs hover:bg-emerald-700 transition-colors text-center"
-            >
-              <MessageSquare className="h-4 w-4" /> Cotizar por WhatsApp
-            </a>
-          </div>
         </div>
       )}
     </nav>

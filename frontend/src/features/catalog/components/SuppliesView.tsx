@@ -1,5 +1,6 @@
 import { useState, useMemo, Fragment } from 'react';
 import { useGetProducts } from '../hooks/useGetProducts';
+import { useCart } from '../../cart/context/CartContext';
 import { COMPANY_INFO } from '../../../config/company.config';
 import {
   AlertCircle,
@@ -17,10 +18,13 @@ import {
   Search,
   X,
   RotateCcw,
+  ShoppingBag,
 } from 'lucide-react';
 
 export default function SuppliesView() {
   const { data: allProducts, isLoading, isError, error } = useGetProducts();
+  const { addItem } = useCart();
+
   const [expandedProductId, setExpandedProductId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -294,15 +298,39 @@ export default function SuppliesView() {
                                       )}
                                     </div>
 
-                                    <a
-                                      href={variantWhatsappUrl}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2 text-[11px] font-bold text-white hover:bg-emerald-700 transition-colors cursor-pointer text-center font-sans shadow-2xs"
-                                    >
-                                      <MessageSquare className="h-3.5 w-3.5" />
-                                      Cotizar por WhatsApp
-                                    </a>
+                                    {/* Acciones: Añadir a la Bolsa + WhatsApp Directo */}
+                                    <div className="flex items-center gap-2 pt-1">
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          addItem({
+                                            variantId: variant.id,
+                                            productId: product.id,
+                                            productName: product.name,
+                                            sku: variant.sku,
+                                            price: safeVariantPrice,
+                                            currency: variant.currency || 'USD',
+                                            attributes: variant.attributes,
+                                            category: product.category,
+                                          });
+                                        }}
+                                        className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-2 text-[11px] font-bold text-white hover:bg-sky-700 transition-colors cursor-pointer font-sans shadow-2xs"
+                                      >
+                                        <ShoppingBag className="h-3.5 w-3.5" />
+                                        Añadir
+                                      </button>
+                                      <a
+                                        href={variantWhatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="inline-flex items-center justify-center p-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 transition-colors cursor-pointer shadow-2xs"
+                                        title="Cotizar directo por WhatsApp"
+                                      >
+                                        <MessageSquare className="h-3.5 w-3.5" />
+                                      </a>
+                                    </div>
                                   </div>
                                 );
                               })}
@@ -359,14 +387,36 @@ export default function SuppliesView() {
                     </span>
                   </div>
 
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-bold text-white hover:bg-emerald-700 transition-colors cursor-pointer font-sans shadow-2xs"
-                  >
-                    <MessageSquare className="h-3.5 w-3.5" /> Cotizar
-                  </a>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (firstVariant) {
+                          addItem({
+                            variantId: firstVariant.id,
+                            productId: product.id,
+                            productName: product.name,
+                            sku: firstVariant.sku,
+                            price: basePrice,
+                            currency: firstVariant.currency || 'USD',
+                            attributes: firstVariant.attributes,
+                            category: product.category,
+                          });
+                        }
+                      }}
+                      className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-2 text-xs font-bold text-white hover:bg-sky-700 transition-colors cursor-pointer font-sans shadow-2xs"
+                    >
+                      <ShoppingBag className="h-3.5 w-3.5" /> Añadir
+                    </button>
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-bold text-white hover:bg-emerald-700 transition-colors cursor-pointer font-sans shadow-2xs"
+                    >
+                      <MessageSquare className="h-3.5 w-3.5" /> Cotizar
+                    </a>
+                  </div>
                 </div>
               </div>
             );
