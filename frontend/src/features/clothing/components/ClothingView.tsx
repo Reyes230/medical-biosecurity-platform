@@ -13,7 +13,8 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import { useGetProducts } from '../../catalog/hooks/useGetProducts';
-import { useCart } from '../../cart/context/CartContext';
+import { useCart } from '../../cart/hooks/useCart';
+import SafeImage from '../../../components/shared/SafeImage';
 import type { VariantResponse, ProductCatalogResponse } from '../../catalog/types/product.types';
 import { COMPANY_INFO } from '../../../config/company.config';
 
@@ -127,18 +128,11 @@ export default function ClothingView() {
             </div>
 
             {selectedVariant.attributes.Color ? (
-              <img
+              <SafeImage
                 src={`/images/scrubs/llanos/${selectedVariant.attributes.Color.toLowerCase()}.webp`}
                 alt={`Uniforme ${selectedVariant.attributes.Color}`}
+                fallbackText="Fotografía en actualización"
                 className="max-h-115 w-auto object-contain drop-shadow-xl transition-transform duration-500 hover:scale-105"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = `
-                    <div class="h-64 flex flex-col items-center justify-center text-slate-400 gap-2">
-                      <span class="text-sm font-semibold">Fotografía de muestra en actualización</span>
-                    </div>
-                  `;
-                }}
               />
             ) : (
               <div className="h-64 flex flex-col items-center justify-center text-slate-400 gap-2">
@@ -355,18 +349,11 @@ export default function ClothingView() {
                     </div>
 
                     {variant.attributes.Color ? (
-                      <img
+                      <SafeImage
                         src={`/images/scrubs/llanos/${variant.attributes.Color.toLowerCase()}.webp`}
                         alt={`Uniforme ${variant.attributes.Color}`}
+                        fallbackText="Sin Fotografía"
                         className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-108 drop-shadow-sm"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                          e.currentTarget.parentElement!.innerHTML = `
-                            <div class="h-full flex items-center justify-center text-[11px] font-bold text-slate-400">
-                              Sin Fotografía
-                            </div>
-                          `;
-                        }}
                       />
                     ) : (
                       <div className="h-full flex items-center justify-center text-xs font-bold text-primary">

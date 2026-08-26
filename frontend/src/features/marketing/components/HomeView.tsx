@@ -14,6 +14,7 @@ import {
   Stethoscope,
   Activity,
 } from 'lucide-react';
+import SafeImage from '../../../components/shared/SafeImage';
 import { COMPANY_INFO } from '../../../config/company.config';
 
 export default function HomeView() {
@@ -56,7 +57,7 @@ export default function HomeView() {
         <div className="absolute -left-20 -bottom-20 h-80 w-80 rounded-full bg-teal-50/70 blur-3xl pointer-events-none" />
 
         <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Columna Izquierda: Mensaje y Acción */}
+          {/* Columna Izquierda */}
           <div className="lg:col-span-7 space-y-6 text-left">
             <div className="inline-flex items-center gap-2 rounded-full bg-sky-50 px-3.5 py-1.5 text-xs font-bold text-primary border border-sky-200 shadow-2xs">
               <Sparkles className="h-3.5 w-3.5" />
@@ -87,7 +88,7 @@ export default function HomeView() {
               </a>
             </div>
 
-            {/* Badges de Garantía Rápida */}
+            {/* Badges de Garantía */}
             <div className="flex flex-wrap gap-4 pt-2 border-t border-slate-100 text-xs text-slate-500 font-semibold">
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="h-4 w-4 text-primary" />
@@ -100,24 +101,17 @@ export default function HomeView() {
             </div>
           </div>
 
-          {/* Columna Derecha: Imagen de Modelo Real */}
+          {/* Columna Derecha con SafeImage */}
           <div className="lg:col-span-5 relative">
-            <div className="relative overflow-hidden rounded-2xl border border-slate-200/90 shadow-md bg-slate-50 group">
-              <img
+            <div className="relative overflow-hidden rounded-2xl border border-slate-200/90 shadow-md bg-slate-50 group min-h-80 flex items-center justify-center">
+              <SafeImage
                 src="/images/hero-scrubs.jpeg"
                 alt="Colección de uniformes y scrubs médicos anatómicos"
+                fallbackText="Coloca la imagen en: /public/images/hero-scrubs.jpeg"
                 className="w-full h-auto max-h-110 object-cover object-center transition-transform duration-700 group-hover:scale-103"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = `
-                    <div class="h-80 flex flex-col items-center justify-center text-slate-400 gap-2 p-6 text-center">
-                      <span class="text-sm font-bold">Coloca la imagen en: /public/images/hero-scrubs.jpeg</span>
-                    </div>
-                  `;
-                }}
               />
 
-              {/* Tag Flotante sobre la Imagen */}
+              {/* Tag Flotante */}
               <div className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-md p-3 rounded-xl border border-white/80 shadow-xs flex items-center justify-between text-xs">
                 <div>
                   <span className="block font-bold text-medical-dark font-sans">Línea Temática & Especialidades</span>
@@ -132,7 +126,7 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* ================= CINTA DE MÉTRICAS / CONFIANZA ================= */}
+      {/* ================= CINTA DE MÉTRICAS ================= */}
       <section className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl border border-slate-200/80 text-center shadow-2xs">
           <Stethoscope className="h-6 w-6 text-primary mb-2" />
@@ -159,7 +153,7 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* ================= PILARES Y PROPUESTA DE VALOR ================= */}
+      {/* ================= PILARES ================= */}
       <section className="space-y-8">
         <div className="text-center space-y-2 max-w-2xl mx-auto">
           <span className="text-xs font-bold uppercase tracking-wider text-primary">Nuestra Garantía</span>
@@ -192,7 +186,7 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* ================= CANALES DE ATENCIÓN Y MINIMAPA ================= */}
+      {/* ================= CANALES DE ATENCIÓN ================= */}
       <section className="grid grid-cols-1 gap-8 lg:grid-cols-3 bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-10 shadow-xs max-w-5xl mx-auto">
         <div className="space-y-6 lg:col-span-1 flex flex-col justify-between">
           <div className="space-y-5">

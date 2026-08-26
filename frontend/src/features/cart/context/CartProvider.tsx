@@ -1,24 +1,9 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
+import { CartContext } from './cartContext';
 import type { CartItem, StoredCart } from '../types/cart.types';
 
 const CART_STORAGE_KEY = 'mb_shopping_cart_v1';
 const CART_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
-
-interface CartContextType {
-  items: CartItem[];
-  isCartOpen: boolean;
-  openCart: () => void;
-  closeCart: () => void;
-  toggleCart: () => void;
-  addItem: (item: Omit<CartItem, 'quantity'>, quantity?: number) => void;
-  removeItem: (variantId: string) => void;
-  updateQuantity: (variantId: string, quantity: number) => void;
-  clearCart: () => void;
-  totalItems: number;
-  subtotal: number;
-}
-
-const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
@@ -29,7 +14,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (!raw) return [];
       const stored: StoredCart = JSON.parse(raw);
 
-      // Si pasaron más de 7 días, expirar carrito
       if (Date.now() - stored.updatedAt > CART_TTL_MS) {
         localStorage.removeItem(CART_STORAGE_KEY);
         return [];
@@ -103,12 +87,4 @@ export function CartProvider({ children }: { children: ReactNode }) {
       {children}
     </CartContext.Provider>
   );
-}
-
-export function useCart() {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart debe ser utilizado dentro de un CartProvider');
-  }
-  return context;
 }

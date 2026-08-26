@@ -1,6 +1,6 @@
 import { useState, useMemo, Fragment } from 'react';
 import { useGetProducts } from '../hooks/useGetProducts';
-import { useCart } from '../../cart/context/CartContext';
+import { useCart } from '../../cart/hooks/useCart';
 import { COMPANY_INFO } from '../../../config/company.config';
 import {
   AlertCircle,
@@ -298,7 +298,7 @@ export default function SuppliesView() {
                                       )}
                                     </div>
 
-                                    {/* Acciones: Añadir a la Bolsa + WhatsApp Directo */}
+                                    {/* Acciones */}
                                     <div className="flex items-center gap-2 pt-1">
                                       <button
                                         type="button"

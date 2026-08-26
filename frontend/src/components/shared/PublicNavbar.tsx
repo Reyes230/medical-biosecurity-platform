@@ -8,7 +8,7 @@ import {
   X,
   ShoppingBag,
 } from 'lucide-react';
-import { useCart } from '../../features/cart/context/CartContext';
+import { useCart } from '../../features/cart/hooks/useCart';
 
 interface PublicNavbarProps {
   currentTab: string;

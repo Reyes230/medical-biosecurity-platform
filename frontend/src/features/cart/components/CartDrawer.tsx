@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../hooks/useCart';
 import { COMPANY_INFO } from '../../../config/company.config';
 import {
   X,
@@ -165,7 +165,6 @@ export default function CartDrawer() {
           {/* Footer & Checkout Form */}
           {items.length > 0 && (
             <div className="p-5 border-t border-slate-200 bg-white space-y-4 shadow-lg">
-              {/* Optional Client Details */}
               <div className="space-y-2 p-3 bg-surface rounded-xl border border-slate-100 text-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-[11px] text-slate-600">Datos de Despacho (Opcional)</span>
@@ -201,7 +200,6 @@ export default function CartDrawer() {
                 </div>
               </div>
 
-              {/* Subtotal */}
               <div className="flex items-baseline justify-between pt-1">
                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                   Subtotal Estimado:

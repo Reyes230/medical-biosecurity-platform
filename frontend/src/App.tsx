@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { CartProvider } from './features/cart/context/CartContext';
+import { CartProvider } from './features/cart/context/CartProvider';
 import CartDrawer from './features/cart/components/CartDrawer';
 import PublicLayout from './layouts/PublicLayout';
 import HomeView from './features/marketing/components/HomeView';
