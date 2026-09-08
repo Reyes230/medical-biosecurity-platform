@@ -9,8 +9,9 @@ import {
   ShieldCheck,
   RotateCcw,
   Check,
-  Tag,
+  Scissors,
   ShoppingBag,
+  GraduationCap,
 } from 'lucide-react';
 import { useGetProducts } from '../../catalog/hooks/useGetProducts';
 import { useCart } from '../../cart/hooks/useCart';
@@ -80,11 +81,11 @@ export default function ClothingView() {
     return (
       <div className="flex flex-col items-center justify-center py-20 space-y-4">
         <div className="relative flex items-center justify-center">
-          <div className="h-12 w-12 rounded-full border-2 border-sky-100 border-t-primary animate-spin" />
+          <div className="h-12 w-12 rounded-full border-2 border-primary-light border-t-primary animate-spin" />
           <Loader2 className="h-5 w-5 text-primary absolute animate-pulse" />
         </div>
         <p className="text-sm font-medium text-slate-500 tracking-tight animate-pulse">
-          Sincronizando catálogo textil y variantes...
+          Sincronizando catálogo textil Indumedics...
         </p>
       </div>
     );
@@ -103,11 +104,11 @@ export default function ClothingView() {
   }
 
   // ==========================================
-  // VISTA DE DETALLE INDIVIDUAL
+  // VISTA DE DETALLE INDIVIDUAL DE LA PRENDA
   // ==========================================
   if (selectedVariant) {
     const colorFormatted = formatColorLabel(selectedVariant.attributes.Color);
-    const whatsappText = `Hola ${COMPANY_INFO.name}, estoy interesado en cotizar el siguiente uniforme médico:\n\n*Modelo:* ${selectedVariant.productName}\n*Color:* ${colorFormatted}\n*Talla:* ${selectedVariant.attributes.Talla || 'A convenir'}\n*Tela:* ${selectedVariant.attributes.Tela || 'Antifluido Premium'}\n*SKU:* ${selectedVariant.sku}\n*Precio Base:* $${selectedVariant.basePrice?.toFixed(2)} ${selectedVariant.currency || 'USD'}`;
+    const whatsappText = `Hola ${COMPANY_INFO.name}, deseo cotizar la siguiente prenda de Indumedics:\n\n*Modelo:* ${selectedVariant.productName}\n*Color:* ${colorFormatted}\n*Talla:* ${selectedVariant.attributes.Talla || 'A convenir'}\n*Tela:* ${selectedVariant.attributes.Tela || 'Antifluido Premium'}\n*SKU:* ${selectedVariant.sku}\n*Precio Base:* $${selectedVariant.basePrice?.toFixed(2)} ${selectedVariant.currency || 'USD'}\n*(Consultar opción de bordado personalizado)*`;
     const variantWhatsappUrl = `https://wa.me/${COMPANY_INFO.whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
 
     return (
@@ -121,9 +122,9 @@ export default function ClothingView() {
 
         <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col lg:flex-row">
           <div className="lg:w-1/2 bg-radial from-slate-50 to-slate-100/60 p-8 sm:p-12 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-slate-100 relative min-h-95">
-            <div className="absolute top-4 left-4 flex gap-2">
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-white text-primary border border-sky-100 shadow-2xs">
-                <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Grado Quirúrgico
+            <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-white text-medical-dark border border-slate-200 shadow-2xs">
+                <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Indumedics Oficial
               </span>
             </div>
 
@@ -145,8 +146,8 @@ export default function ClothingView() {
             <div className="space-y-6">
               <div className="space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-sky-50 text-primary rounded-md border border-sky-100">
-                    {selectedVariant.attributes.Tela || 'Antifluido'}
+                  <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-primary-light text-primary rounded-md border border-primary/20">
+                    {selectedVariant.attributes.Tela || 'Antifluido Premium'}
                   </span>
                   <span className="px-2.5 py-0.5 text-[10px] font-mono font-semibold bg-slate-100 text-slate-600 rounded-md">
                     SKU: {selectedVariant.sku}
@@ -157,13 +158,14 @@ export default function ClothingView() {
                 </h1>
                 <p className="text-sm text-slate-500 leading-relaxed">
                   {selectedVariant.productDescription ||
-                    'Uniforme de diseño anatómico fabricado en textil de alta densidad con protección antifluidos certificada.'}
+                    'Uniforme de diseño anatómico confeccionado en textil antifluido de alta resistencia, pensado para jornadas médicas de alto rendimiento.'}
                 </p>
               </div>
 
+              {/* Especificaciones de la prenda */}
               <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50/70 border border-slate-100 text-xs">
                 <div className="space-y-1">
-                  <span className="text-slate-400 uppercase font-bold text-[10px] tracking-wide">Color de Tela</span>
+                  <span className="text-slate-400 uppercase font-bold text-[10px] tracking-wide">Tono / Color</span>
                   <p className="font-bold text-medical-dark">{colorFormatted}</p>
                 </div>
                 <div className="space-y-1">
@@ -171,13 +173,28 @@ export default function ClothingView() {
                   <p className="font-bold text-medical-dark">{selectedVariant.attributes.Talla || 'Universal'}</p>
                 </div>
                 <div className="space-y-1">
-                  <span className="text-slate-400 uppercase font-bold text-[10px] tracking-wide">Corte / Género</span>
+                  <span className="text-slate-400 uppercase font-bold text-[10px] tracking-wide">Corte</span>
                   <p className="font-bold text-medical-dark">{selectedVariant.attributes.Genero || 'Unisex'}</p>
                 </div>
                 <div className="space-y-1">
-                  <span className="text-slate-400 uppercase font-bold text-[10px] tracking-wide">Disponibilidad</span>
+                  <span className="text-slate-400 uppercase font-bold text-[10px] tracking-wide">Confección</span>
                   <p className="font-bold text-emerald-600 flex items-center gap-1.5">
-                    <span className="h-2 w-2 rounded-full bg-emerald-500"></span> Confección Activa
+                    <span className="h-2 w-2 rounded-full bg-emerald-500"></span> Disponible
+                  </p>
+                </div>
+              </div>
+
+              {/* Módulo destacado de Bordado */}
+              <div className="p-4 rounded-2xl border border-primary/30 bg-gradient-to-r from-primary-light/40 to-white flex items-start gap-3">
+                <div className="h-9 w-9 rounded-xl bg-primary text-white flex items-center justify-center shrink-0 shadow-2xs">
+                  <Scissors className="h-4 w-4" />
+                </div>
+                <div className="space-y-0.5">
+                  <span className="text-xs font-bold text-medical-dark block font-sans">
+                    ¿Deseas personalizar tu uniforme?
+                  </span>
+                  <p className="text-[11px] text-slate-500 leading-relaxed">
+                    Añadimos bordado computarizado de tu nombre, especialidad médica o el logo de tu institución de salud/universidad.
                   </p>
                 </div>
               </div>
@@ -185,7 +202,7 @@ export default function ClothingView() {
 
             <div className="space-y-4 pt-6 border-t border-slate-100">
               <div className="flex items-baseline gap-2">
-                <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Precio Unitario:</span>
+                <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Precio Base:</span>
                 <span className="text-3xl font-extrabold text-medical-dark font-sans tracking-tight">
                   ${selectedVariant.basePrice?.toFixed(2)}
                 </span>
@@ -207,7 +224,7 @@ export default function ClothingView() {
                       category: 'Ropa Médica',
                     })
                   }
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-3.5 text-sm font-bold text-white shadow-xs hover:bg-sky-700 transition-all cursor-pointer font-sans"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-3.5 text-sm font-bold text-white shadow-xs hover:bg-primary-dark transition-all cursor-pointer font-sans"
                 >
                   <ShoppingBag className="h-4 w-4" />
                   Añadir a mi Pedido
@@ -235,25 +252,36 @@ export default function ClothingView() {
   // ==========================================
   return (
     <div className="space-y-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/70 pb-6">
-        <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary bg-sky-50 px-2.5 py-1 rounded-md border border-sky-100">
-            <Sparkles className="h-3.5 w-3.5" /> Línea Quirúrgica & Textil
+      {/* Header Enriquecido con Identidad Indumedics y Bordados */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-slate-200/70 pb-6">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary bg-primary-light px-3 py-1 rounded-md border border-primary/20">
+            <Sparkles className="h-3.5 w-3.5" /> Indumedics — Ropa de Trabajo
           </div>
           <h2 className="text-3xl font-extrabold tracking-tight text-medical-dark font-sans">
-            Colección de Indumentaria Médica
+            Colección de Indumentaria Quirúrgica y Clínica
           </h2>
           <p className="text-sm text-slate-500 max-w-2xl">
-            Uniformes y scrubs diseñados con tecnología antifluido, costuras reforzadas y ergonomía para profesionales de la salud.
+            Uniformes, mandiles y scrubs anatómicos confeccionados en textil antifluido de alta resistencia para jornadas médicas intensivas.
           </p>
         </div>
 
-        <div className="text-xs text-slate-500 font-semibold bg-white border border-slate-200 px-3.5 py-2 rounded-xl shadow-2xs self-start md:self-auto">
-          Mostrando <span className="font-bold text-medical-dark">{filteredVariants.length}</span> modelos
+        {/* Tarjeta de Personalización & Bordados */}
+        <div className="bg-gradient-to-br from-white to-primary-light/40 border border-primary/20 p-4 rounded-2xl flex items-center gap-3.5 shadow-2xs max-w-md">
+          <div className="h-11 w-11 rounded-xl bg-medical-dark text-white flex items-center justify-center shrink-0 shadow-2xs">
+            <Scissors className="h-5 w-5 text-primary" />
+          </div>
+          <div className="text-xs space-y-0.5">
+            <span className="font-bold text-medical-dark block font-sans">Servicio de Bordado Computarizado</span>
+            <span className="text-slate-500 text-[11px] block leading-snug">
+              Personaliza con tu nombre, especialidad o el logotipo de tu clínica o universidad.
+            </span>
+          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+        {/* Barra Lateral de Filtros */}
         <aside className="space-y-6 bg-white p-6 border border-slate-200/80 rounded-2xl shadow-xs lg:col-span-1 h-fit sticky top-24">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-medical-dark flex items-center gap-2 font-sans">
@@ -262,7 +290,7 @@ export default function ClothingView() {
             {hasActiveFilters && (
               <button
                 onClick={resetFilters}
-                className="inline-flex items-center gap-1 text-[11px] font-bold text-primary hover:text-sky-700 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-primary hover:text-primary-dark transition-colors cursor-pointer"
               >
                 <RotateCcw className="h-3 w-3" /> Limpiar
               </button>
@@ -305,7 +333,7 @@ export default function ClothingView() {
                     onClick={() => setSelectedColor(color)}
                     className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-xl transition-all cursor-pointer text-left ${
                       isSelected
-                        ? 'bg-sky-50 text-primary font-bold border border-sky-200 shadow-2xs'
+                        ? 'bg-primary-light text-primary font-bold border border-primary/30 shadow-2xs'
                         : 'text-slate-600 hover:bg-slate-50 border border-transparent font-medium'
                     }`}
                   >
@@ -316,19 +344,26 @@ export default function ClothingView() {
               })}
             </div>
           </div>
+
+          {/* Sello de Garantía */}
+          <div className="pt-4 border-t border-slate-100 flex items-center gap-2 text-[11px] text-slate-500 font-medium">
+            <GraduationCap className="h-4 w-4 text-primary shrink-0" />
+            <span>Kits para estudiantes y profesionales</span>
+          </div>
         </aside>
 
+        {/* Grilla de Prendas */}
         <section className="lg:col-span-3">
           {filteredVariants.length === 0 ? (
             <div className="text-center py-16 border border-dashed border-slate-200 bg-white rounded-2xl space-y-3">
-              <Tag className="h-8 w-8 text-slate-300 mx-auto" />
+              <Scissors className="h-8 w-8 text-slate-300 mx-auto" />
               <h4 className="text-sm font-bold text-medical-dark">No hay uniformes con estos filtros</h4>
               <p className="text-xs text-slate-400 max-w-xs mx-auto">
                 Prueba cambiando la combinación de color o talla seleccionada.
               </p>
               <button
                 onClick={resetFilters}
-                className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-sky-700 cursor-pointer"
+                className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-dark cursor-pointer"
               >
                 <RotateCcw className="h-3.5 w-3.5" /> Restablecer filtros
               </button>
@@ -339,7 +374,7 @@ export default function ClothingView() {
                 <div
                   key={variant.id}
                   onClick={() => setSelectedVariant(variant)}
-                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xs hover:shadow-lg hover:border-slate-300 transition-all duration-300 cursor-pointer"
+                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xs hover:shadow-lg hover:border-primary/40 transition-all duration-300 cursor-pointer"
                 >
                   <div className="aspect-square bg-radial from-slate-50 to-slate-100/70 flex items-center justify-center overflow-hidden relative p-4">
                     <div className="absolute top-3 left-3 z-10">
@@ -375,13 +410,13 @@ export default function ClothingView() {
 
                     <div className="flex items-center justify-between pt-3 mt-auto border-t border-slate-100">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-base font-extrabold text-medical-dark">
+                        <span className="text-base font-extrabold text-medical-dark font-sans">
                           ${variant.basePrice?.toFixed(2)}
                         </span>
                         <span className="text-[10px] font-bold text-slate-400">{variant.currency || 'USD'}</span>
                       </div>
                       <span className="text-[11px] font-bold text-primary group-hover:underline">
-                        Ver Ficha &rarr;
+                        Ver Detalles &rarr;
                       </span>
                     </div>
                   </div>
