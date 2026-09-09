@@ -35,3 +35,5 @@ repomix-output.xml
 
 # Archivos temporales de generación
 frontend/nuevas-variantes.json
+# Archivos temporales de generación y recursos crudos
+raw-images/
