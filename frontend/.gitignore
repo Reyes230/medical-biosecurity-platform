@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Archivos temporales de generación y recursos crudos
+frontend/nuevas-variantes.json
+raw-images/
